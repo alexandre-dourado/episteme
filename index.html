@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,7 +82,7 @@
             align-self: flex-start;
         }
 
-        /* Classes para colorir e redimensionar os blocos no estilo Bento/Bauhaus */
+        /* Classes Bauhaus geradas dinamicamente */
         .bento-item.red { background-color: var(--bauhaus-red); }
         .bento-item.blue { background-color: var(--bauhaus-blue); }
         .bento-item.yellow { background-color: var(--bauhaus-yellow); }
@@ -93,7 +93,7 @@
             h1 { font-size: 2.5rem; }
         }
 
-        /* Formas geométricas abstratas de fundo nos cards */
+        /* Formas geométricas */
         .shape {
             position: absolute;
             top: -20px;
@@ -104,6 +104,14 @@
         }
         .shape.circle { border-radius: 50%; background: var(--bauhaus-black); opacity: 0.1; }
         .shape.square { background: var(--bauhaus-white); border: 5px solid var(--bauhaus-black); right: 20px; top: 20px; width: 100px; height: 100px; }
+
+        /* Loader */
+        #loader {
+            padding: 40px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
 
         /* Modal / Visualizador (Iframe) */
         .viewer-overlay {
@@ -175,7 +183,9 @@
         <h1>Epistemologia</h1>
     </header>
 
-    <main class="bento-container" id="grid">
+    <div id="loader">Carregando materiais...</div>
+
+    <main class="bento-container" id="grid" style="display: none;">
         </main>
 
     <div class="viewer-overlay" id="viewer">
@@ -191,70 +201,83 @@
 
     <script>
         // =======================================================
-        // LISTA DOS MATERIAIS ATUALIZADA COM OS SEUS FICHEIROS
+        // CONFIGURAÇÃO DO REPOSITÓRIO
         // =======================================================
-        const materiais = [
-            {
-                titulo: "Dinâmicas de Epistemologia",
-                arquivo: "materiais/DINAMICAS_DE_EPISTEMOLOGIA.html",
-                cor: "red",      
-                tamanho: "large",
-                forma: "circle"  
-            },
-            {
-                titulo: "Dinâmicas Epistemologia",
-                arquivo: "materiais/DINAMICAS_EPISTEMOLOGIA.html",
-                cor: "blue",
-                tamanho: "",
-                forma: "square"
-            },
-            {
-                titulo: "Dinâmicas Epistemologia 2",
-                arquivo: "materiais/DINAMICAS_EPISTEMOLOGIA_2.html",
-                cor: "yellow",
-                tamanho: "",
-                forma: "circle"
-            },
-            {
-                titulo: "Oficina de Epistemologia",
-                arquivo: "materiais/OFICINA_DE_EPISTEMOLOGIA.html",
-                cor: "",
-                tamanho: "large",
-                forma: "square"
-            },
-            {
-                titulo: "Slides: Rascunho Episteme",
-                arquivo: "materiais/SLIDES_Rascunho_Episteme.html",
-                cor: "red",
-                tamanho: "",
-                forma: "circle"
-            }
-        ];
+        const githubUser = 'alexandre-dourado'; // <--- ALTERE PARA O SEU NOME DE USUÁRIO NO GITHUB
+        const githubRepo = 'episteme';
+        const folderPath = 'materiais';
+        
+        const apiUrl = `https://api.github.com/repos/${githubUser}/${githubRepo}/contents/${folderPath}`;
 
-        // =======================================================
-        // LÓGICA DE RENDERIZAÇÃO E FUNCIONALIDADE
-        // =======================================================
+        // Opções de estilo dinâmico para manter o padrão Bauhaus irregular e vivo
+        const coresBauhaus = ['red', 'blue', 'yellow', '']; 
+        const formasBauhaus = ['circle', 'square'];
+
+        // Elementos da interface
         const grid = document.getElementById('grid');
+        const loader = document.getElementById('loader');
         const viewer = document.getElementById('viewer');
         const frame = document.getElementById('presentation-frame');
         const viewerTitle = document.getElementById('viewer-title');
 
-        materiais.forEach(item => {
-            const div = document.createElement('div');
-            div.className = `bento-item ${item.cor} ${item.tamanho}`;
-            
-            div.innerHTML = `
-                <div class="shape ${item.forma}"></div>
-                <h2>${item.titulo}</h2>
-            `;
-            
-            div.onclick = () => abrirViewer(item);
-            grid.appendChild(div);
-        });
+        // =======================================================
+        // FUNÇÃO PARA BUSCAR E RENDERIZAR OS ARQUIVOS
+        // =======================================================
+        async function carregarMateriais() {
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error('Falha ao acessar a API do GitHub. Verifique o nome de usuário.');
+                
+                const data = await response.json();
+                
+                // Filtra apenas arquivos .html
+                const arquivosHtml = data.filter(file => file.name.endsWith('.html'));
 
-        function abrirViewer(item) {
-            viewerTitle.textContent = item.titulo;
-            frame.src = item.arquivo;
+                if (arquivosHtml.length === 0) {
+                    loader.textContent = "Nenhum arquivo HTML encontrado na pasta /materiais.";
+                    return;
+                }
+
+                // Remove o loader e mostra o grid
+                loader.style.display = 'none';
+                grid.style.display = 'grid';
+
+                // Cria os cards dinamicamente
+                arquivosHtml.forEach((file, index) => {
+                    // Limpa o nome do arquivo para usar como título (ex: DINAMICAS_DE_EPISTEMOLOGIA -> Dinamicas De Epistemologia)
+                    let tituloLimpo = file.name.replace('.html', '').replace(/_/g, ' ');
+                    
+                    // Alterna as cores e formas para dar o visual "Bento"
+                    let cor = coresBauhaus[index % coresBauhaus.length];
+                    let forma = formasBauhaus[index % formasBauhaus.length];
+                    // Faz o primeiro e a cada 4 arquivos ficarem grandes
+                    let tamanho = (index === 0 || index % 4 === 0) ? 'large' : '';
+
+                    const div = document.createElement('div');
+                    div.className = `bento-item ${cor} ${tamanho}`;
+                    
+                    div.innerHTML = `
+                        <div class="shape ${forma}"></div>
+                        <h2>${tituloLimpo}</h2>
+                    `;
+                    
+                    // file.path já contém "materiais/nome_do_arquivo.html"
+                    div.onclick = () => abrirViewer(tituloLimpo, file.path);
+                    grid.appendChild(div);
+                });
+
+            } catch (error) {
+                console.error(error);
+                loader.textContent = "Erro ao carregar arquivos. Verifique se o repositório é público e se o usuário está correto no script.";
+            }
+        }
+
+        // =======================================================
+        // FUNÇÕES DO VISUALIZADOR (IFRAME E PDF)
+        // =======================================================
+        function abrirViewer(titulo, caminhoArquivo) {
+            viewerTitle.textContent = titulo;
+            frame.src = caminhoArquivo;
             viewer.classList.add('active');
             document.body.style.overflow = 'hidden'; 
         }
@@ -270,10 +293,13 @@
                 frame.contentWindow.focus();
                 frame.contentWindow.print();
             } catch (erro) {
-                alert("Erro ao tentar imprimir. O bloqueio de segurança do navegador pode estar a impedir se estiver a abrir o ficheiro direto no PC ao invés de usar o GitHub Pages.");
+                alert("Erro ao tentar imprimir. O bloqueio de segurança do navegador pode impedir isso se você estiver rodando fora de um servidor web.");
                 console.error(erro);
             }
         }
+
+        // Inicia o processo quando a página carregar
+        carregarMateriais();
     </script>
 </body>
 </html>
