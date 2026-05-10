@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epistemologia | Materiais</title>
+    <!-- Fonte geométrica que remete ao design Bauhaus -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta Bauhaus */
+            --bauhaus-red: #D32736;
+            --bauhaus-blue: #005BAC;
+            --bauhaus-yellow: #F9C000;
+            --bauhaus-black: #1A1A1A;
+            --bauhaus-white: #F4F4EE;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bauhaus-white);
+            color: var(--bauhaus-black);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 40px;
+            border-bottom: 5px solid var(--bauhaus-black);
+            background-color: var(--bauhaus-white);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            font-weight: 700;
+        }
+
+        /* Bento Grid */
+        .bento-container {
+            flex: 1;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-auto-rows: 250px;
+            gap: 24px;
+        }
+
+        .bento-item {
+            border: 5px solid var(--bauhaus-black);
+            background-color: var(--bauhaus-white);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 24px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 10px 10px 0px var(--bauhaus-black);
+        }
+
+        .bento-item:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 14px 14px 0px var(--bauhaus-black);
+        }
+
+        .bento-item h2 {
+            font-size: 1.5rem;
+            z-index: 2;
+            background: var(--bauhaus-white);
+            padding: 10px 16px;
+            border: 3px solid var(--bauhaus-black);
+            display: inline-block;
+            align-self: flex-start;
+        }
+
+        /* Classes para colorir e redimensionar os blocos no estilo Bento/Bauhaus */
+        .bento-item.red { background-color: var(--bauhaus-red); }
+        .bento-item.blue { background-color: var(--bauhaus-blue); }
+        .bento-item.yellow { background-color: var(--bauhaus-yellow); }
+        .bento-item.large { grid-column: span 2; grid-row: span 2; }
+        
+        @media (max-width: 768px) {
+            .bento-item.large { grid-column: span 1; grid-row: span 1; }
+            h1 { font-size: 2.5rem; }
+        }
+
+        /* Formas geométricas abstratas de fundo nos cards */
+        .shape {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 150px;
+            height: 150px;
+            z-index: 1;
+        }
+        .shape.circle { border-radius: 50%; background: var(--bauhaus-black); opacity: 0.1; }
+        .shape.square { background: var(--bauhaus-white); border: 5px solid var(--bauhaus-black); right: 20px; top: 20px; width: 100px; height: 100px; }
+
+        /* Modal / Visualizador (Iframe) */
+        .viewer-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bauhaus-black);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .viewer-overlay.active {
+            display: flex;
+        }
+
+        .toolbar {
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bauhaus-black);
+            border-bottom: 2px solid var(--bauhaus-white);
+        }
+
+        .toolbar-title {
+            color: var(--bauhaus-white);
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .btn {
+            background-color: var(--bauhaus-yellow);
+            color: var(--bauhaus-black);
+            border: 3px solid var(--bauhaus-white);
+            padding: 10px 20px;
+            font-family: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--bauhaus-red);
+            color: var(--bauhaus-white);
+        }
+
+        .btn-close {
+            background-color: var(--bauhaus-white);
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        iframe {
+            width: 100%;
+            flex: 1;
+            border: none;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Epistemologia</h1>
+    </header>
+
+    <main class="bento-container" id="grid">
+        <!-- O grid será populado pelo JavaScript -->
+    </main>
+
+    <!-- Modal do Visualizador -->
+    <div class="viewer-overlay" id="viewer">
+        <div class="toolbar">
+            <div class="toolbar-title" id="viewer-title">Apresentação</div>
+            <div class="actions">
+                <!-- A função de imprimir automaticamente oferece a opção "Salvar como PDF" no navegador -->
+                <button class="btn" onclick="imprimirPDF()">Baixar PDF / Imprimir</button>
+                <button class="btn btn-close" onclick="fecharViewer()">Fechar</button>
+            </div>
+        </div>
+        <iframe id="presentation-frame" src="" title="Apresentação HTML"></iframe>
+    </div>
+
+    <script>
+        // =======================================================
+        // LISTA DOS MATERIAIS
+        // Edite este array para adicionar ou remover suas aulas
+        // =======================================================
+        const materiais = [
+            {
+                titulo: "1. Introdução à Epistemologia",
+                arquivo: "materiais/aula1.html",
+                cor: "red",      // Opções: 'red', 'blue', 'yellow' ou vazio '' (fica branco)
+                tamanho: "large",// 'large' para um bloco grande no Bento Grid, vazio '' para normal
+                forma: "circle"  // Detalhe visual de fundo: 'circle' ou 'square'
+            },
+            {
+                titulo: "2. Racionalismo Cartesiano",
+                arquivo: "materiais/aula2.html",
+                cor: "blue",
+                tamanho: "",
+                forma: "square"
+            },
+            {
+                titulo: "3. Empirismo Britânico",
+                arquivo: "materiais/aula3.html",
+                cor: "yellow",
+                tamanho: "",
+                forma: "circle"
+            },
+            {
+                titulo: "4. A Síntese Kantiana",
+                arquivo: "materiais/aula4.html",
+                cor: "",
+                tamanho: "",
+                forma: "square"
+            }
+            // Para adicionar novos arquivos, copie e cole um bloco acima
+        ];
+
+        // =======================================================
+        // LÓGICA DE RENDERIZAÇÃO E FUNCIONALIDADE
+        // =======================================================
+        const grid = document.getElementById('grid');
+        const viewer = document.getElementById('viewer');
+        const frame = document.getElementById('presentation-frame');
+        const viewerTitle = document.getElementById('viewer-title');
+
+        // Cria os blocos do Bento Grid dinamicamente
+        materiais.forEach(item => {
+            const div = document.createElement('div');
+            div.className = `bento-item ${item.cor} ${item.tamanho}`;
+            
+            div.innerHTML = `
+                <div class="shape ${item.forma}"></div>
+                <h2>${item.titulo}</h2>
+            `;
+            
+            div.onclick = () => abrirViewer(item);
+            grid.appendChild(div);
+        });
+
+        // Abre o iframe em tela cheia
+        function abrirViewer(item) {
+            viewerTitle.textContent = item.titulo;
+            frame.src = item.arquivo;
+            viewer.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Remove o scroll do fundo
+        }
+
+        // Fecha o iframe
+        function fecharViewer() {
+            viewer.classList.remove('active');
+            frame.src = ""; // Limpa a memória do iframe
+            document.body.style.overflow = 'auto'; // Devolve o scroll
+        }
+
+        // Imprime o conteúdo do Iframe
+        function imprimirPDF() {
+            try {
+                // Foca na janela do iframe e aciona o print do navegador nativo
+                // No Chrome/Firefox/Safari isso abrirá a janela com a opção "Salvar como PDF"
+                frame.contentWindow.focus();
+                frame.contentWindow.print();
+            } catch (erro) {
+                alert("Erro ao tentar imprimir. O bloqueio de segurança do navegador pode estar impedindo se você estiver abrindo o arquivo direto no PC ao invés de usar o GitHub Pages.");
+                console.error(erro);
+            }
+        }
+    </script>
+</body>
+</html>
