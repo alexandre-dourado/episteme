@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Epistemologia | Materiais</title>
-    <!-- Fonte geométrica que remete ao design Bauhaus -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -177,15 +176,12 @@
     </header>
 
     <main class="bento-container" id="grid">
-        <!-- O grid será populado pelo JavaScript -->
-    </main>
+        </main>
 
-    <!-- Modal do Visualizador -->
     <div class="viewer-overlay" id="viewer">
         <div class="toolbar">
             <div class="toolbar-title" id="viewer-title">Apresentação</div>
             <div class="actions">
-                <!-- A função de imprimir automaticamente oferece a opção "Salvar como PDF" no navegador -->
                 <button class="btn" onclick="imprimirPDF()">Baixar PDF / Imprimir</button>
                 <button class="btn btn-close" onclick="fecharViewer()">Fechar</button>
             </div>
@@ -195,39 +191,44 @@
 
     <script>
         // =======================================================
-        // LISTA DOS MATERIAIS
-        // Edite este array para adicionar ou remover suas aulas
+        // LISTA DOS MATERIAIS ATUALIZADA COM OS SEUS FICHEIROS
         // =======================================================
         const materiais = [
             {
-                titulo: "1. Introdução à Epistemologia",
-                arquivo: "materiais/aula1.html",
-                cor: "red",      // Opções: 'red', 'blue', 'yellow' ou vazio '' (fica branco)
-                tamanho: "large",// 'large' para um bloco grande no Bento Grid, vazio '' para normal
-                forma: "circle"  // Detalhe visual de fundo: 'circle' ou 'square'
+                titulo: "Dinâmicas de Epistemologia",
+                arquivo: "materiais/DINAMICAS_DE_EPISTEMOLOGIA.html",
+                cor: "red",      
+                tamanho: "large",
+                forma: "circle"  
             },
             {
-                titulo: "2. Racionalismo Cartesiano",
-                arquivo: "materiais/aula2.html",
+                titulo: "Dinâmicas Epistemologia",
+                arquivo: "materiais/DINAMICAS_EPISTEMOLOGIA.html",
                 cor: "blue",
                 tamanho: "",
                 forma: "square"
             },
             {
-                titulo: "3. Empirismo Britânico",
-                arquivo: "materiais/aula3.html",
+                titulo: "Dinâmicas Epistemologia 2",
+                arquivo: "materiais/DINAMICAS_EPISTEMOLOGIA_2.html",
                 cor: "yellow",
                 tamanho: "",
                 forma: "circle"
             },
             {
-                titulo: "4. A Síntese Kantiana",
-                arquivo: "materiais/aula4.html",
+                titulo: "Oficina de Epistemologia",
+                arquivo: "materiais/OFICINA_DE_EPISTEMOLOGIA.html",
                 cor: "",
-                tamanho: "",
+                tamanho: "large",
                 forma: "square"
+            },
+            {
+                titulo: "Slides: Rascunho Episteme",
+                arquivo: "materiais/SLIDES_Rascunho_Episteme.html",
+                cor: "red",
+                tamanho: "",
+                forma: "circle"
             }
-            // Para adicionar novos arquivos, copie e cole um bloco acima
         ];
 
         // =======================================================
@@ -238,7 +239,6 @@
         const frame = document.getElementById('presentation-frame');
         const viewerTitle = document.getElementById('viewer-title');
 
-        // Cria os blocos do Bento Grid dinamicamente
         materiais.forEach(item => {
             const div = document.createElement('div');
             div.className = `bento-item ${item.cor} ${item.tamanho}`;
@@ -252,30 +252,25 @@
             grid.appendChild(div);
         });
 
-        // Abre o iframe em tela cheia
         function abrirViewer(item) {
             viewerTitle.textContent = item.titulo;
             frame.src = item.arquivo;
             viewer.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Remove o scroll do fundo
+            document.body.style.overflow = 'hidden'; 
         }
 
-        // Fecha o iframe
         function fecharViewer() {
             viewer.classList.remove('active');
-            frame.src = ""; // Limpa a memória do iframe
-            document.body.style.overflow = 'auto'; // Devolve o scroll
+            frame.src = ""; 
+            document.body.style.overflow = 'auto'; 
         }
 
-        // Imprime o conteúdo do Iframe
         function imprimirPDF() {
             try {
-                // Foca na janela do iframe e aciona o print do navegador nativo
-                // No Chrome/Firefox/Safari isso abrirá a janela com a opção "Salvar como PDF"
                 frame.contentWindow.focus();
                 frame.contentWindow.print();
             } catch (erro) {
-                alert("Erro ao tentar imprimir. O bloqueio de segurança do navegador pode estar impedindo se você estiver abrindo o arquivo direto no PC ao invés de usar o GitHub Pages.");
+                alert("Erro ao tentar imprimir. O bloqueio de segurança do navegador pode estar a impedir se estiver a abrir o ficheiro direto no PC ao invés de usar o GitHub Pages.");
                 console.error(erro);
             }
         }
