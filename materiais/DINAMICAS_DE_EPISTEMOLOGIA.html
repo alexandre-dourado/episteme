@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolkit | Dinâmicas de Epistemologia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --swiss-red: #E6192E;
+            --bg-canvas: #F4F4F4;
+            --grid-color: #E5E5E5;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-canvas);
+            color: #111;
+            line-height: 1.4;
+            background-image: 
+                linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+            background-size: 2rem 2rem;
+            background-position: center center;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .swiss-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.5rem; }
+        
+        .card { 
+            background: #FFF; 
+            border: 1px solid #111; 
+            display: flex; 
+            flex-direction: column;
+            box-shadow: 6px 6px 0px #111;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px var(--swiss-red);
+        }
+        
+        .tag { 
+            background: #111; color: #FFF; 
+            padding: 0.15rem 0.4rem; 
+            font-size: 0.65rem; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            display: inline-block;
+            letter-spacing: 0.05em;
+        }
+        .tag.red { background: var(--swiss-red); }
+        
+        .section-title {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            text-align: right;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 lg:p-12">
+
+    <header class="swiss-grid mb-16 bg-white border border-black p-8 md:p-12 shadow-[8px_8px_0px_#111]">
+        <div class="col-span-12 md:col-span-8 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-[var(--swiss-red)] text-white flex items-center justify-center rounded-sm">
+                        <i data-lucide="layers" class="w-6 h-6"></i>
+                    </div>
+                    <span class="mono text-xs font-bold uppercase tracking-widest text-gray-500">Toolkit Pedagógico</span>
+                </div>
+                <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none mb-6">
+                    Dinâmicas de <br><span class="text-[var(--swiss-red)]">Epistemologia</span>
+                </h1>
+                <p class="text-xl md:text-2xl font-light text-gray-600 max-w-3xl">
+                    Dinâmicas simples e impactantes para oficina de Epistemologia
+                </p>
+            </div>
+            
+            <div class="mt-12 p-4 border-l-4 border-[var(--swiss-red)] bg-gray-50">
+                <p class="font-bold uppercase text-sm mb-2 flex items-center gap-2">
+                    <i data-lucide="alert-circle" class="w-4 h-4 text-[var(--swiss-red)]"></i> Regra de Ouro
+                </p>
+                <p class="text-sm">A oficina funciona melhor quando os alunos primeiro “caem na armadilha” e só depois você revela o conceito filosófico.</p>
+            </div>
+        </div>
+        
+        <div class="col-span-12 md:col-span-4 border-t md:border-t-0 md:border-l border-black pt-8 md:pt-0 md:pl-8">
+            <h3 class="font-black uppercase text-sm mb-6 flex items-center gap-2">
+                <i data-lucide="zap" class="w-4 h-4"></i> O aluno sente na prática:
+            </h3>
+            <ul class="space-y-4 font-mono text-xs">
+                <li class="flex items-start gap-3">
+                    <i data-lucide="x-square" class="w-4 h-4 text-[var(--swiss-red)] shrink-0"></i>
+                    <span>que pode estar errado,</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <i data-lucide="eye-off" class="w-4 h-4 text-[var(--swiss-red)] shrink-0"></i>
+                    <span>que confia em coisas sem perceber,</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <i data-lucide="brain-circuit" class="w-4 h-4 text-[var(--swiss-red)] shrink-0"></i>
+                    <span>que memória falha,</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <i data-lucide="scan-face" class="w-4 h-4 text-[var(--swiss-red)] shrink-0"></i>
+                    <span>que percepção engana,</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <i data-lucide="message-square" class="w-4 h-4 text-[var(--swiss-red)] shrink-0"></i>
+                    <span>que linguagem molda verdade,</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <i data-lucide="award" class="w-4 h-4 text-[var(--swiss-red)] shrink-0"></i>
+                    <span>que autoridade influencia crença.</span>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="flex items-center gap-4 mb-8">
+        <h2 class="text-3xl font-black uppercase">Inventário de Dinâmicas</h2>
+        <div class="flex-grow border-b-2 border-black"></div>
+        <span class="mono font-bold text-xl">12</span>
+    </div>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-24">
+        
+        <!-- Dinâmica 1 -->
+        <article class="card">
+            <header class="p-6 border-b border-black flex justify-between items-start bg-black text-white">
+                <div>
+                    <span class="mono text-xs text-[var(--swiss-red)] font-bold mb-2 block">01</span>
+                    <h3 class="text-xl font-black uppercase">“Você tem certeza?”</h3>
+                </div>
+                <i data-lucide="help-circle" class="w-6 h-6 text-gray-400"></i>
+            </header>
+            <div class="p-6 flex-grow flex flex-col gap-6">
+                <div>
+                    <span class="tag mb-2">Tema</span>
+                    <p class="text-sm font-bold">Crença, certeza e dúvida.</p>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-black text-gray-500 block mb-2 border-b border-gray-200 pb-1">Como funciona</span>
+                    <p class="text-sm mb-2">Faça perguntas aparentemente óbvias:</p>
+                    <ul class="text-sm space-y-1 pl-4 border-l-2 border-[var(--swiss-red)] text-gray-700 mb-4">
+                        <li>• Qual a cor do tênis que você usou ontem?</li>
+                        <li>• O que você comeu há 3 dias?</li>
+                        <li>• Quantas janelas existem nesta sala?</li>
+                        <li>• Qual a última mensagem que recebeu?</li>
+                    </ul>
+                    <p class="text-sm mb-2">Depois:</p>
+                    <ul class="text-sm space-y-1 pl-4 text-gray-700 font-mono text-xs">
+                        <li>> compare respostas,</li>
+                        <li>> mostre inconsistências,</li>
+                        <li>> revele erros.</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-100 p-4 border border-gray-200">
+                    <span class="text-[10px] uppercase font-black tracking-widest text-[var(--swiss-red)] block mb-1">Impacto</span>
+                    <p class="text-sm font-bold mb-2">Eles percebem:</p>
+                    <ul class="text-xs space-y-1 text-gray-700">
+                        <li>- confiança ≠ verdade,</li>
+                        <li>- memória é reconstrução,</li>
+                        <li>- sensação de certeza pode ser ilusória.</li>
+                    </ul>
+                </div>
+                <div class="mt-auto">
+                    <p class="text-[10px] uppercase font-black mb-2 flex items-center gap-1"><i data-lucide="message-circle-question" class="w-3 h-3"></i> Pergunta Final</p>
+                    <p class="text-sm italic font-medium bg-[var(--swiss-red)] text-white p-2">“Se nossa mente erra tanto, como sabemos qualquer coisa?”</p>
+                </div>
+                <div class="pt-4 border-t border-gray-200 flex flex-wrap gap-1">
+                    <span class="tag">Descartes</span><span class="tag">Dúvida Metódica</span><span class="tag">Falibilidade</span><span class="tag">Memória</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Dinâmica 2 -->
+        <article class="card">
+            <header class="p-6 border-b border-black flex justify-between items-start bg-black text-white">
+                <div>
+                    <span class="mono text-xs text-[var(--swiss-red)] font-bold mb-2 block">02</span>
+                    <h3 class="text-xl font-black uppercase">“O Fato Inventado”</h3>
+                </div>
+                <i data-lucide="megaphone" class="w-6 h-6 text-gray-400"></i>
+            </header>
+            <div class="p-6 flex-grow flex flex-col gap-6">
+                <div>
+                    <span class="tag mb-2">Tema</span>
+                    <p class="text-sm font-bold">Autoridade e construção da verdade.</p>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-black text-gray-500 block mb-2 border-b border-gray-200 pb-1">Como funciona</span>
+                    <p class="text-sm mb-2">Diga uma informação falsa com extrema confiança:</p>
+                    <p class="text-sm font-bold bg-gray-100 p-2 mb-2 border-l-4 border-black">“Pesquisas mostram que alunos aprendem 40% melhor ouvindo música barroca.”</p>
+                    <p class="text-sm text-gray-700 mb-2">Observe quantos acreditam. Depois revele: <span class="font-bold text-black">a pesquisa não existe.</span></p>
+                </div>
+                <div class="bg-gray-100 p-4 border border-gray-200">
+                    <span class="text-[10px] uppercase font-black tracking-widest text-[var(--swiss-red)] block mb-1">Segunda Fase</span>
+                    <p class="text-sm mb-2">Peça: <span class="font-bold">“por que vocês acreditaram?”</span></p>
+                    <p class="text-xs font-bold text-gray-600 mb-1">Geralmente:</p>
+                    <ul class="text-xs space-y-1 text-gray-700">
+                        <li>- porque você falou com confiança,</li>
+                        <li>- parecia científico,</li>
+                        <li>- usou números,</li>
+                        <li>- parecia algo plausível.</li>
+                    </ul>
+                </div>
+                <div class="mt-auto">
+                    <p class="text-[10px] uppercase font-black mb-1"><i data-lucide="target" class="w-3 h-3 inline"></i> Muito forte para:</p>
+                    <p class="text-sm font-bold">Internet, influencers e IA.</p>
+                </div>
+                <div class="pt-4 border-t border-gray-200 flex flex-wrap gap-1">
+                    <span class="tag">Autoridade</span><span class="tag">Retórica</span><span class="tag">Fake News</span><span class="tag">Epistemologia Social</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Dinâmica 3 -->
+        <article class="card">
+            <header class="p-6 border-b border-black flex justify-between items-start bg-black text-white">
+                <div>
+                    <span class="mono text-xs text-[var(--swiss-red)] font-bold mb-2 block">03</span>
+                    <h3 class="text-xl font-black uppercase">“Cadeia de Testemunhas”</h3>
+                </div>
+                <i data-lucide="users" class="w-6 h-6 text-gray-400"></i>
+            </header>
+            <div class="p-6 flex-grow flex flex-col gap-6">
+                <div>
+                    <span class="tag mb-2">Tema</span>
+                    <p class="text-sm font-bold">Confiabilidade da informação.</p>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-black text-gray-500 block mb-2 border-b border-gray-200 pb-1">Como funciona</span>
+                    <ul class="text-sm space-y-2 text-gray-700 font-mono text-xs">
+                        <li class="flex gap-2"><i data-lucide="arrow-right" class="w-4 h-4 text-black"></i> Mostre uma imagem por 10 segundos para um aluno.</li>
+                        <li class="flex gap-2"><i data-lucide="arrow-right" class="w-4 h-4 text-black"></i> Ele descreve para outro.</li>
+                        <li class="flex gap-2"><i data-lucide="arrow-right" class="w-4 h-4 text-black"></i> Esse outro passa adiante.</li>
+                        <li class="flex gap-2 mt-4"><i data-lucide="check-square" class="w-4 h-4 text-[var(--swiss-red)]"></i> <strong>No final:</strong> compare com a imagem original.</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-100 p-4 border border-gray-200 mt-auto">
+                    <span class="text-[10px] uppercase font-black tracking-widest text-[var(--swiss-red)] block mb-1">Discussão</span>
+                    <ul class="text-sm space-y-1 font-bold">
+                        <li>? testemunho é confiável?</li>
+                        <li>? conhecimento indireto é frágil?</li>
+                        <li>! quase tudo que sabemos veio de terceiros.</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-gray-200 flex flex-wrap gap-1">
+                    <span class="tag">Empirismo</span><span class="tag">Testemunho</span><span class="tag">Transmissão do conhecimento</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Dinâmica 4 -->
+        <article class="card">
+            <header class="p-6 border-b border-black flex justify-between items-start bg-black text-white">
+                <div>
+                    <span class="mono text-xs text-[var(--swiss-red)] font-bold mb-2 block">04</span>
+                    <h3 class="text-xl font-black uppercase">“Ilusão da Percepção”</h3>
+                </div>
+                <i data-lucide="eye-off" class="w-6 h-6 text-gray-400"></i>
+            </header>
+            <div class="p-6 flex-grow flex flex-col gap-6">
+                <div>
+                    <span class="tag mb-2">Tema</span>
+                    <p class="text-sm font-bold">Limites dos sentidos.</p>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-black text-gray-500 block mb-2 border-b border-gray-200 pb-1">Como funciona</span>
+                    <p class="text-sm mb-2">Mostre:</p>
+                    <ul class="text-xs space-y-1 font-mono text-gray-700 pl-4 border-l-2 border-black mb-4">
+                        <li>> ilusões de ótica,</li>
+                        <li>> áudio ambíguo,</li>
+                        <li>> imagens impossíveis.</li>
+                    </ul>
+                    <p class="text-sm mb-2">Ou faça:</p>
+                    <p class="text-sm text-gray-700 bg-gray-50 p-2 border border-gray-200">peça para contar passes de bola em vídeo e eles não percebem um detalhe absurdo.</p>
+                </div>
+                <div class="bg-gray-100 p-4 border border-[var(--swiss-red)] mt-auto">
+                    <span class="text-[10px] uppercase font-black tracking-widest text-[var(--swiss-red)] block mb-1">Impacto</span>
+                    <p class="text-sm font-bold">A percepção parece objetiva… <br><span class="text-[var(--swiss-red)]">até falhar.</span></p>
+                </div>
+                <div class="pt-4 border-t border-gray-200 flex flex-wrap gap-1">
+                    <span class="tag">Empirismo</span><span class="tag">Percepção</span><span class="tag">Kant</span><span class="tag">Realidade vs Aparência</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Dinâmica 5 -->
+        <article class="card">
+            <header class="p-6 border-b border-black flex justify-between items-start bg-black text-white">
+                <div>
+                    <span class="mono text-xs text-[var(--swiss-red)] font-bold mb-2 block">05</span>
+                    <h3 class="text-xl font-black uppercase">“Quem está mentindo?”</h3>
+                </div>
+                <i data-lucide="scale" class="w-6 h-6 text-gray-400"></i>
+            </header>
+            <div class="p-6 flex-grow flex flex-col gap-6">
+                <div>
+                    <span class="tag mb-2">Tema</span>
+                    <p class="text-sm font-bold">Critérios de verdade.</p>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-black text-gray-500 block mb-2 border-b border-gray-200 pb-1">Como funciona</span>
+                    <p class="text-sm mb-2">3 alunos contam histórias curtas:</p>
+                    <div class="flex gap-2 mb-4">
+                        <span class="bg-gray-200 px-2 py-1 text-xs font-bold">2 verdadeiras</span>
+                        <span class="bg-black text-white px-2 py-1 text-xs font-bold">1 falsa</span>
+                    </div>
+                    <p class="text-sm text-gray-700 mb-2">Turma tenta descobrir.</p>
+                    <p class="text-sm text-gray-700 mb-2"><strong>Depois:</strong> revele que TODOS mentiram. Ou TODOS falaram verdade.</p>
+                </div>
+                <div class="bg-gray-100 p-4 border border-gray-200 mt-auto">
+                    <span class="text-[10px] uppercase font-black tracking-widest text-[var(--swiss-red)] block mb-1">Discussão: Como julgamos verdade?</span>
+                    <div class="flex gap-2 flex-wrap text-sm font-bold text-gray-700 mt-2">
+                        <span>[emoção?]</span> <span>[confiança?]</span> <span>[aparência?]</span> <span>[coerência?]</span>
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-gray-200 flex flex-wrap gap-1">
+                    <span class="tag">Coerentismo</span><span class="tag">Verdade</span><span class="tag">Julgamento Social</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Dinâmica 6 -->
+        <article class="card border-[var(--swiss-red)] shadow-[6px_6px_0px_var(--swiss-red)]">
+            <header class="p-6 border-b border-[var(--swiss-red)] flex justify-between items-start bg-[var(--swiss-red)] text-white">
+                <div>
+                    <span class="mono text-xs text-black font-bold mb-2 block">06</span>
+                    <h3 class="text-xl font-black uppercase">“A Memória Falsa”</h3>
+                </div>
+                <i data-lucide="brain" class="w-6 h-6 text-black"></i>
+            </header>
+            <div class="p-6 flex-grow flex flex-col gap-6">
+                <div>
+                    <span class="tag red mb-2">Tema</span>
+                    <p class="text-sm font-bold">Construção da memória.</p>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-black text-gray-500 block mb-2 border-b border-gray-200 pb-1">Como funciona</span>
+                    <p class="text-sm mb-2">Leia rapidamente uma lista:</p>
+                    <p class="text-sm font-mono bg-gray-100 p-2 mb-4 border border-gray-300 text-center">cama, travesseiro, sonho, descansar, noite…</p>
+                    <p class="text-sm mb-2">Depois pergunte:</p>
+                    <p class="text-lg font-black text-center border-y border-black py-2 mb-4">“Eu falei a palavra SONO?”</p>
+                    <p class="text-sm text-gray-700">Muitos dirão que sim. Mesmo não tendo falado.</p>
+                </div>
+                <div class="bg-black text-white p-4 mt-auto">
+                    <span class="text-[10px] uppercase font-black tracking-widest text-[var(--swiss-red)] block mb-1">Impacto</span>
+                    <p class="text-sm font-bold mb-1">A memória preenche lacunas.</p>
+                    <span class="text-[10px] uppercase opacity-70">Muito impactante.</span>
+                </div>
+                <div class="pt-4 border-t border-gray-200 flex flex-wrap gap-1">
+                    <span class="tag">Cognição</span><span class="tag">Memória Reconstrutiva</span><span class="tag">Falsidade Involuntária</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Dinâmica 7 -->
+        <article class="card">
+            <header class="p-6 border-b border-black flex justify-between items-start bg-black text-white">
+                <div>
+                    <span class="mono text-xs text-[var(--swiss-red)] font-bold mb-2 block">07</span>
+                    <h3 class="text-xl font-black uppercase">“O Mapa não é o Território”</h3>
+                </div>
+                <i data-lucide="map" class="w-6 h-6 text-gray-400"></i>
+            </header>
+            <div class="p-6 flex-grow flex flex-col gap-6">
+                <div>
+                    <span class="tag mb-2">Tema</span>
+                    <p class="text-sm font-bold">Representação da realidade.</p>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-black text-gray-500 block mb-2 border-b border-gray-200 pb-1">Como funciona</span>
+                    <p class="text-sm mb-2">Peça:</p>
+                    <p class="text-sm font-bold bg-gray-100 p-2 mb-2 border-l-4 border-[var(--swiss-red)]">“Desenhe um mapa da escola.”</p>
+                    <p class="text-sm text-gray-700 mb-2">Compare os desenhos. Todos representam o “mesmo lugar”. Mas nenhum é igual.</p>
+                </div>
+                <div class="bg-gray-100 p-4 border border-gray-200 mt-auto">
+                    <span class="text-[10px] uppercase font-black tracking-widest text-[var(--swiss-red)] block mb-1">Reflexão</span>
+                    <p class="text-sm font-bold mb-2">Modelos simplificam realidade.</p>
+                    <p class="text-xs text-gray-600 mb-1">Inclusive:</p>
+                    <div class="flex gap-2 flex-wrap text-xs">
+                        <span class="border border-black px-1">linguagem</span>
+                        <span class="border border-black px-1">ciência</span>
+                        <span class="border border-black px-1">IA</span>
+                        <span class="border border-black px-1">ideologias</span>
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-gray-200 flex flex-wrap gap-1">
+                    <span class="tag">Representação</span><span class="tag">Semiótica</span><span class="tag">Abstração</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Dinâmica 8 -->
+        <article class="card">
+            <header class="p-6 border-b border-black flex justify-between items-start bg-black text-white">
+                <div>
+                    <span class="mono text-xs text-[var(--swiss-red)] font-bold mb-2 block">08</span>
+                    <h3 class="text-xl font-black uppercase">“Tribunal da Verdade”</h3>
+                </div>
+                <i data-lucide="gavel" class="w-6 h-6 text-gray-400"></i>
+            </header>
+            <div class="p-6 flex-grow flex flex-col gap-6">
+                <div>
+                    <span class="tag mb-2">Tema</span>
+                    <p class="text-sm font-bold">Como validamos conhecimento.</p>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-black text-gray-500 block mb-2 border-b border-gray-200 pb-1">Como funciona</span>
+                    <p class="text-sm mb-2">Apresente uma afirmação controversa:</p>
+                    <ul class="text-xs space-y-1 font-mono bg-gray-100 p-2 mb-4 text-gray-800">
+                        <li>> “celular prejudica atenção”</li>
+                        <li>> “IA vai substituir professores”</li>
+                        <li>> “redes sociais manipulam pessoas”</li>
+                    </ul>
+                    <p class="text-sm mb-2">Cada grupo deve defender usando:</p>
+                    <p class="text-xs font-bold text-gray-600 mb-4">[experiência, ciência, lógica, autoridade, estatística]</p>
+                    <p class="text-sm text-black font-bold">Depois compare: qual argumento pareceu mais convincente?</p>
+                </div>
+                <div class="pt-4 border-t border-gray-200 flex flex-wrap gap-1 mt-auto">
+                    <span class="tag">Método Científico</span><span class="tag">Evidência</span><span class="tag">Argumentação</span><span class="tag">Epistemologia</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Dinâmica 9 -->
+        <article class="card">
+            <header class="p-6 border-b border-black flex justify-between items-start bg-black text-white">
+                <div>
+                    <span class="mono text-xs text-[var(--swiss-red)] font-bold mb-2 block">09</span>
+                    <h3 class="text-xl font-black uppercase">“Você acreditaria?”</h3>
+                </div>
+                <i data-lucide="filter" class="w-6 h-6 text-gray-400"></i>
+            </header>
+            <div class="p-6 flex-grow flex flex-col gap-6">
+                <div>
+                    <span class="tag mb-2">Tema</span>
+                    <p class="text-sm font-bold">Viés de confirmação.</p>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-black text-gray-500 block mb-2 border-b border-gray-200 pb-1">Como funciona</span>
+                    <p class="text-sm mb-2">Mostre manchetes absurdas. Mas personalize:</p>
+                    <div class="flex gap-2 flex-wrap mb-4 text-xs font-bold">
+                        <span class="bg-gray-200 px-2 py-1 rounded-sm">futebol</span>
+                        <span class="bg-gray-200 px-2 py-1 rounded-sm">política</span>
+                        <span class="bg-gray-200 px-2 py-1 rounded-sm">famosos</span>
+                        <span class="bg-gray-200 px-2 py-1 rounded-sm">tecnologia</span>
+                    </div>
+                    <p class="text-sm text-gray-800 bg-[var(--swiss-red)] text-white p-2">Os alunos tendem a acreditar mais naquilo que combina com o que já pensam.</p>
+                </div>
+                <div class="bg-gray-100 p-4 border border-gray-200 mt-auto">
+                    <span class="text-[10px] uppercase font-black tracking-widest text-[var(--swiss-red)] block mb-1">Discussão</span>
+                    <p class="text-sm font-bold">Não buscamos verdade apenas. Buscamos confirmação.</p>
+                </div>
+                <div class="pt-4 border-t border-gray-200 flex flex-wrap gap-1">
+                    <span class="tag">Viés Cognitivo</span><span class="tag">Tribalismo</span><span class="tag">Bolhas</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Dinâmica 10 -->
+        <article class="card border-black shadow-[6px_6px_0px_#111]">
+            <header class="p-6 border-b border-black flex justify-between items-start bg-white text-black">
+                <div>
+                    <span class="mono text-xs text-gray-500 font-bold mb-2 block">10</span>
+                    <h3 class="text-xl font-black uppercase">“Real ou gerado por IA?”</h3>
+                </div>
+                <i data-lucide="bot" class="w-6 h-6 text-[var(--swiss-red)]"></i>
+            </header>
+            <div class="p-6 flex-grow flex flex-col gap-6">
+                <div>
+                    <span class="tag mb-2">Tema</span>
+                    <p class="text-sm font-bold">Crise epistemológica contemporânea.</p>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-black text-gray-500 block mb-2 border-b border-gray-200 pb-1">Como funciona</span>
+                    <p class="text-sm mb-2">Mostre:</p>
+                    <p class="text-xs font-mono text-gray-600 mb-2">[imagens, textos, vozes, vídeos]</p>
+                    <p class="text-sm font-bold border-l-2 border-black pl-2 mb-2">Alguns reais. Outros gerados por IA. Turma vota.</p>
+                </div>
+                <div class="bg-gray-100 p-4 border border-[var(--swiss-red)] mt-auto">
+                    <span class="text-[10px] uppercase font-black tracking-widest text-[var(--swiss-red)] block mb-1">Impacto / Discussão Enorme</span>
+                    <p class="text-sm font-bold mb-2">Eles percebem: não dá mais para confiar apenas nos sentidos.</p>
+                    <div class="flex flex-wrap gap-1 text-[10px] font-mono">
+                        <span class="border border-gray-400 px-1">verdade digital</span>
+                        <span class="border border-gray-400 px-1">evidência</span>
+                        <span class="border border-gray-400 px-1">manipulação</span>
+                        <span class="border border-gray-400 px-1">deepfake</span>
+                        <span class="border border-gray-400 px-1">pós-verdade</span>
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-gray-200 flex flex-wrap gap-1 items-center justify-between">
+                    <span class="text-[10px] uppercase font-black text-[var(--swiss-red)]">Excelente fechamento.</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Dinâmica 11 -->
+        <article class="card bg-black text-white">
+            <header class="p-6 border-b border-gray-800 flex justify-between items-start">
+                <div>
+                    <span class="mono text-xs text-[var(--swiss-red)] font-bold mb-2 block">11</span>
+                    <h3 class="text-xl font-black uppercase text-white">“O Cérebro na Cuba”</h3>
+                </div>
+                <i data-lucide="box" class="w-6 h-6 text-gray-500"></i>
+            </header>
+            <div class="p-6 flex-grow flex flex-col gap-6">
+                <div>
+                    <span class="tag red mb-2">Tema</span>
+                    <p class="text-sm font-bold text-white">Ceticismo radical.</p>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-black text-gray-500 block mb-2 border-b border-gray-800 pb-1">Como funciona</span>
+                    <p class="text-sm mb-2 text-gray-300">Conte:</p>
+                    <p class="text-sm font-bold p-3 mb-4 bg-gray-900 border-l-4 border-[var(--swiss-red)]">“E se você fosse apenas um cérebro conectado a uma simulação?”</p>
+                    <p class="text-sm mb-2 text-gray-300">Depois pergunte:</p>
+                    <p class="text-lg text-center font-black py-2 mb-2 text-[var(--swiss-red)]">“Como você provaria que o mundo é real?”</p>
+                    <p class="text-sm text-gray-400 italic text-center">Silêncio absoluto geralmente acontece.</p>
+                </div>
+                <div class="pt-4 border-t border-gray-800 flex flex-wrap gap-1 mt-auto">
+                    <span class="tag">Descartes</span><span class="tag">Matrix</span><span class="tag">Ceticismo</span><span class="tag">Realidade</span>
+                </div>
+                <span class="text-[10px] uppercase font-black text-gray-500 text-center">Muito cinematográfico.</span>
+            </div>
+        </article>
+
+        <!-- Dinâmica 12 -->
+        <article class="card">
+            <header class="p-6 border-b border-black flex justify-between items-start bg-black text-white">
+                <div>
+                    <span class="mono text-xs text-[var(--swiss-red)] font-bold mb-2 block">12</span>
+                    <h3 class="text-xl font-black uppercase">“O Google Humano”</h3>
+                </div>
+                <i data-lucide="search" class="w-6 h-6 text-gray-400"></i>
+            </header>
+            <div class="p-6 flex-grow flex flex-col gap-6">
+                <div>
+                    <span class="tag mb-2">Tema</span>
+                    <p class="text-sm font-bold">Dependência de autoridade externa.</p>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-black text-gray-500 block mb-2 border-b border-gray-200 pb-1">Como funciona</span>
+                    <p class="text-sm mb-2">Pergunte coisas difíceis. Ninguém sabe.</p>
+                    <p class="text-sm mb-2">Depois permita:</p>
+                    <p class="text-sm font-mono bg-gray-100 p-2 mb-4 text-center">“consultar o especialista” <br><span class="text-xs text-gray-500">(um aluno com celular ou IA)</span></p>
+                    <p class="text-sm mb-2">Aí pergunte:</p>
+                    <p class="text-base font-black border-y border-black py-2 text-center bg-black text-white">“Agora VOCÊ sabe, ou apenas confia?”</p>
+                </div>
+                <div class="pt-4 border-t border-gray-200 flex flex-wrap gap-1 mt-auto">
+                    <span class="tag">Conhecimento Delegado</span><span class="tag">Autoridade Epistêmica</span><span class="tag">Dependência Tecnológica</span>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="mb-24">
+        <h2 class="text-3xl font-black uppercase mb-8 border-b-4 border-black pb-4 flex items-center gap-4">
+            <i data-lucide="git-merge" class="w-8 h-8"></i> Estrutura ideal da oficina
+        </h2>
+        
+        <div class="swiss-grid">
+            <div class="col-span-12 md:col-span-4 card p-0 group">
+                <div class="bg-black text-white p-4 flex justify-between items-center group-hover:bg-[var(--swiss-red)] transition-colors">
+                    <h3 class="font-black uppercase text-xl">Abertura</h3>
+                    <i data-lucide="play" class="w-5 h-5"></i>
+                </div>
+                <div class="p-6">
+                    <p class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">“Nossa mente falha”</p>
+                    <ul class="space-y-3 font-mono text-sm">
+                        <li class="flex items-center gap-2"><i data-lucide="corner-down-right" class="w-4 h-4 text-black"></i> Ilusão de percepção</li>
+                        <li class="flex items-center gap-2"><i data-lucide="corner-down-right" class="w-4 h-4 text-black"></i> Memória falsa</li>
+                        <li class="flex items-center gap-2"><i data-lucide="corner-down-right" class="w-4 h-4 text-black"></i> Você tem certeza?</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="col-span-12 md:col-span-4 card p-0 group">
+                <div class="bg-black text-white p-4 flex justify-between items-center group-hover:bg-[var(--swiss-red)] transition-colors">
+                    <h3 class="font-black uppercase text-xl">Meio</h3>
+                    <i data-lucide="fast-forward" class="w-5 h-5"></i>
+                </div>
+                <div class="p-6">
+                    <p class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">“Como sabemos o que sabemos?”</p>
+                    <ul class="space-y-3 font-mono text-sm">
+                        <li class="flex items-center gap-2"><i data-lucide="corner-down-right" class="w-4 h-4 text-black"></i> Cadeia de testemunhas</li>
+                        <li class="flex items-center gap-2"><i data-lucide="corner-down-right" class="w-4 h-4 text-black"></i> Tribunal da verdade</li>
+                        <li class="flex items-center gap-2"><i data-lucide="corner-down-right" class="w-4 h-4 text-black"></i> Fato inventado</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="col-span-12 md:col-span-4 card p-0 group border-black shadow-[6px_6px_0px_#111]">
+                <div class="bg-[var(--swiss-red)] text-white p-4 flex justify-between items-center">
+                    <h3 class="font-black uppercase text-xl">Final</h3>
+                    <i data-lucide="flag" class="w-5 h-5"></i>
+                </div>
+                <div class="p-6">
+                    <p class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">“A crise da verdade na era da IA”</p>
+                    <ul class="space-y-3 font-mono text-sm">
+                        <li class="flex items-center gap-2"><i data-lucide="corner-down-right" class="w-4 h-4 text-[var(--swiss-red)]"></i> Real ou IA?</li>
+                        <li class="flex items-center gap-2"><i data-lucide="corner-down-right" class="w-4 h-4 text-[var(--swiss-red)]"></i> Google humano</li>
+                        <li class="flex items-center gap-2"><i data-lucide="corner-down-right" class="w-4 h-4 text-[var(--swiss-red)]"></i> Cérebro na cuba</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="mt-16 border-t-8 border-black pt-16 pb-8">
+        <div class="bg-black text-white p-8 md:p-16 relative overflow-hidden flex flex-col items-center text-center">
+            <i data-lucide="quote" class="absolute top-4 left-4 w-32 h-32 text-gray-800 opacity-20 transform -scale-x-100"></i>
+            
+            <span class="tag red mb-8 relative z-10">Melhor pergunta para encerrar</span>
+            
+            <h2 class="text-2xl md:text-5xl font-black uppercase leading-tight mb-12 relative z-10 max-w-5xl">
+                “Se nossos sentidos falham, nossa memória falha, a internet manipula e a IA consegue imitar realidade… <br>
+                <span class="text-[var(--swiss-red)]">então como podemos distinguir verdade de ilusão?”</span>
+            </h2>
+            
+            <div class="max-w-md mx-auto border-t border-gray-800 pt-6 mt-4 relative z-10">
+                <p class="text-sm font-mono text-gray-400 flex items-center justify-center gap-2">
+                    <i data-lucide="info" class="w-4 h-4"></i> 
+                    Essa pergunta geralmente deixa a sala inteira pensando mesmo depois da oficina acabar.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Inicialização dos Ícones Lucide -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

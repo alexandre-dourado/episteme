@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber-Epistemologia | Oficina Pedagógica</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Inter:wght@300;400;800&display=swap');
+
+        :root {
+            --bg: #050505;
+            --text: #F4F4F5;
+            --accent1: #00FF41;
+            --accent2: #FF003C;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            font-family: var(--font-body);
+            cursor: none;
+        }
+
+        /* HUD & Custom Cursor */
+        #custom-cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 20px; height: 20px;
+            border: 1px solid var(--accent1);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            mix-blend-mode: difference;
+        }
+        
+        #hud {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            font-family: var(--font-display);
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+        #hud:hover { opacity: 1; cursor: crosshair; }
+        
+        #progress-container {
+            flex-grow: 1;
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+            margin: 0 20px;
+            position: relative;
+        }
+        #progress-bar {
+            position: absolute;
+            top: 0; left: 0; height: 100%;
+            background: var(--accent1);
+            width: 0%;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px var(--accent1);
+        }
+
+        /* Typography Clamp */
+        .t-display {
+            font-family: var(--font-display);
+            font-size: clamp(50px, 9vw, 130px);
+            font-weight: 700;
+            line-height: 1.1;
+            margin: 0 0 20px 0;
+            text-transform: uppercase;
+        }
+        .t-h1 {
+            font-family: var(--font-display);
+            font-size: clamp(40px, 6vw, 80px);
+            font-weight: 700;
+            color: var(--accent1);
+            margin: 0 0 20px 0;
+        }
+        .t-h2 {
+            font-family: var(--font-display);
+            font-size: clamp(24px, 4vw, 50px);
+            font-weight: 400;
+            margin: 0 0 20px 0;
+            border-left: 4px solid var(--accent2);
+            padding-left: 20px;
+        }
+        .t-body {
+            font-size: clamp(18px, 2vw, 32px);
+            font-weight: 300;
+            line-height: 1.6;
+            margin: 0 0 15px 0;
+            max-width: 800px;
+            color: rgba(244, 244, 245, 0.8);
+        }
+        .t-label {
+            font-family: var(--font-display);
+            font-size: 14px;
+            letter-spacing: 4px;
+            color: var(--accent2);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: inline-block;
+            border: 1px solid var(--accent2);
+            padding: 5px 15px;
+        }
+
+        /* Spatial Canvas Mechanics */
+        #canvas {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            perspective: 1000px;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10vw;
+            box-sizing: border-box;
+            background-color: var(--slide-bg);
+            
+            /* Core transitions */
+            transition: transform 1.4s cubic-bezier(0.25, 1, 0.1, 1), 
+                        opacity 1s ease, 
+                        filter 1.2s ease;
+            will-change: transform, opacity, filter;
+            transform-origin: center center;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* States */
+        .slide.upcoming {
+            transform: scale(1.1) translateZ(-200px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .slide.active {
+            transform: translate(0) scale(1) translateZ(0);
+            opacity: 1;
+            filter: blur(0);
+            pointer-events: all;
+            z-index: 5;
+        }
+
+        /* Vestige Clouds (The Past) */
+        .slide.past { pointer-events: none; z-index: 1; }
+        
+        .slide.past-left {
+            transform: translateX(-20vw) scale(0.8) translateZ(-300px);
+            opacity: 0.05;
+            filter: blur(12px);
+        }
+        .slide.past-up {
+            transform: translateY(-20vh) scale(0.8) translateZ(-300px);
+            opacity: 0.05;
+            filter: blur(12px);
+        }
+        .slide.past-zoom {
+            transform: scale(15);
+            opacity: 0;
+            filter: blur(20px);
+        }
+
+        /* Steps System */
+        .step {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.2, 1), 
+                        transform 0.8s cubic-bezier(0.25, 1, 0.2, 1);
+        }
+        .step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* CRITICAL: Force opacity 1 on past slides to avoid disappearing text mid-blur */
+        .slide.past .step {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        /* Iconography */
+        .icon-giant {
+            width: clamp(100px, 15vw, 250px);
+            height: clamp(100px, 15vw, 250px);
+            margin-bottom: 40px;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 65, 0.3));
+        }
+
+        /* Watermarks */
+        .watermark {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120vmin; height: 120vmin;
+            opacity: 0.03;
+            z-index: 0;
+            pointer-events: none;
+            transition: transform 20s linear;
+        }
+        .slide.active .watermark {
+            transform: translate(-50%, -50%) rotate(15deg) scale(1.1);
+        }
+        
+        /* Grid Overlay for Cyberpunk Feel */
+        .grid-overlay {
+            position: fixed;
+            top:0; left:0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-overlay"></div>
+    <div id="custom-cursor"></div>
+
+    <div id="canvas">
+        
+        <!-- SLIDE 1 -->
+        <div class="slide upcoming" data-exit="past-zoom" style="--slide-bg: #050505;">
+            <svg class="watermark" viewBox="0 0 100 100" stroke="#F4F4F5" fill="none" stroke-width="0.5">
+                <!-- Eye Outline -->
+                <path d="M5,50 Q50,5 95,50 Q50,95 5,50 Z" />
+                <circle cx="50" cy="50" r="18" stroke-dasharray="2 2"/>
+                <circle cx="50" cy="50" r="5" fill="#F4F4F5" opacity="0.1"/>
+            </svg>
+            <div class="content-wrapper">
+                <div class="step"><span class="t-label">OFICINA PEDAGÓGICA FILOSÓFICA</span></div>
+                <div class="step"><h1 class="t-display">Como você<br>sabe que isso<br>é verdade?</h1></div>
+                <div class="step"><h2 class="t-h2">Introdução à Epistemologia na Era Digital</h2></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2 -->
+        <div class="slide upcoming" data-exit="past-left" style="--slide-bg: #0A0A0E;">
+            <svg class="watermark" viewBox="0 0 100 100" stroke="#F4F4F5" fill="none" stroke-width="0.5">
+                <rect x="25" y="10" width="50" height="80" rx="4"/>
+                <path d="M25,30 L75,30 M25,70 L75,70" stroke-dasharray="1 3"/>
+                <circle cx="50" cy="85" r="3"/>
+            </svg>
+            <div class="content-wrapper">
+                <div class="step">
+                    <svg class="icon-giant" viewBox="0 0 100 100" stroke="var(--accent1)" fill="none" stroke-width="2">
+                        <rect x="30" y="10" width="40" height="80" rx="5"/>
+                        <line x1="20" y1="40" x2="80" y2="40" stroke="var(--accent2)"/>
+                        <line x1="15" y1="45" x2="85" y2="45" stroke="var(--accent2)" stroke-dasharray="4 4"/>
+                        <path d="M35,25 L65,25 M40,80 L60,80"/>
+                    </svg>
+                </div>
+                <div class="step"><h1 class="t-h1">A Caverna Digital</h1></div>
+                <div class="step"><p class="t-body">Fake news. Deepfakes. Bolhas algorítmicas.</p></div>
+                <div class="step"><p class="t-body">Nossos sentidos estão sendo hackeados diariamente.</p></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3 -->
+        <div class="slide upcoming" data-exit="past-up" style="--slide-bg: #110B11;">
+            <svg class="watermark" viewBox="0 0 100 100" stroke="#F4F4F5" fill="none" stroke-width="0.5">
+                <!-- Pillar with Binary -->
+                <rect x="30" y="20" width="40" height="60"/>
+                <rect x="25" y="10" width="50" height="10"/>
+                <rect x="25" y="80" width="50" height="10"/>
+                <text x="35" y="40" font-size="8" fill="#F4F4F5">010</text>
+                <text x="45" y="60" font-size="8" fill="#F4F4F5">101</text>
+            </svg>
+            <div class="content-wrapper">
+                <div class="step"><h1 class="t-h1">A Ilusão da Certeza</h1></div>
+                <div class="step"><p class="t-body"><strong>DOXA:</strong> 'Eu acho'. A opinião sem base.</p></div>
+                <div class="step"><p class="t-body"><strong>CRENÇA:</strong> O estado de aceitação psicológica.</p></div>
+                <div class="step"><h2 class="t-h2"><strong>EPISTEME:</strong> A crença verdadeira e rigorosamente justificada.</h2></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4 -->
+        <div class="slide upcoming" data-exit="past-zoom" style="--slide-bg: #1A0505;">
+            <svg class="watermark" viewBox="0 0 100 100" stroke="#F4F4F5" fill="none" stroke-width="0.5">
+                <path d="M50,20 Q80,20 80,50 Q80,80 50,80 Q20,80 20,50 Q20,20 50,20 Z" stroke-dasharray="2 4"/>
+                <line x1="50" y1="80" x2="50" y2="100"/>
+                <line x1="20" y1="50" x2="0" y2="50"/>
+                <line x1="80" y1="50" x2="100" y2="50"/>
+            </svg>
+            <div class="content-wrapper">
+                <div class="step">
+                    <svg class="icon-giant" viewBox="0 0 100 100" stroke="var(--accent2)" fill="none" stroke-width="2">
+                        <path d="M25,40 L75,40 L85,85 L15,85 Z"/>
+                        <circle cx="35" cy="60" r="6"/>
+                        <circle cx="65" cy="60" r="6"/>
+                        <line x1="50" y1="15" x2="50" y2="40"/>
+                        <circle cx="50" cy="10" r="5" fill="var(--accent2)"/>
+                        <path d="M40,75 L60,75"/>
+                    </svg>
+                </div>
+                <div class="step"><h1 class="t-h1">O Gênio Maligno</h1></div>
+                <div class="step"><p class="t-body">Descartes duvidava dos próprios sentidos para encontrar a verdade.</p></div>
+                <div class="step"><p class="t-body">Hoje, a IA Generativa assumiu o papel do Gênio Maligno.</p></div>
+                <div class="step"><h2 class="t-h2">Como provar que o que você vê é real?</h2></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5 -->
+        <div class="slide upcoming" data-exit="past-left" style="--slide-bg: #05101A;">
+            <svg class="watermark" viewBox="0 0 100 100" stroke="#F4F4F5" fill="none" stroke-width="0.5">
+                <circle cx="50" cy="50" r="40"/>
+                <circle cx="50" cy="50" r="25"/>
+                <circle cx="50" cy="50" r="10"/>
+                <line x1="50" y1="50" x2="90" y2="10"/>
+            </svg>
+            <div class="content-wrapper">
+                <div class="step"><h1 class="t-h1">O Mapa Não é o Território</h1></div>
+                <div class="step"><p class="t-body">O feed que o algoritmo monta não é o mundo real.</p></div>
+                <div class="step"><p class="t-body">É um espelho distorcido pelo viés de confirmação.</p></div>
+                <div class="step"><h2 class="t-h2">Bem-vindo ao isolamento cognitivo.</h2></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6 -->
+        <div class="slide upcoming" data-exit="past-up" style="--slide-bg: #0A1A11;">
+            <svg class="watermark" viewBox="0 0 100 100" stroke="#F4F4F5" fill="none" stroke-width="0.5">
+                <path d="M50,10 L90,30 L80,80 Q50,100 50,100 Q50,100 20,80 L10,30 Z"/>
+                <circle cx="50" cy="50" r="15"/>
+                <line x1="60" y1="60" x2="75" y2="75"/>
+            </svg>
+            <div class="content-wrapper">
+                <div class="step">
+                    <svg class="icon-giant" viewBox="0 0 100 100" stroke="var(--accent1)" fill="none" stroke-width="2">
+                        <path d="M50,10 L90,30 L80,80 Q50,100 50,100 Q50,100 20,80 L10,30 Z"/>
+                        <polyline points="35,55 45,65 70,40" stroke-width="4"/>
+                    </svg>
+                </div>
+                <div class="step"><h1 class="t-h1">O Antivírus Intelectual</h1></div>
+                <div class="step"><p class="t-body">Karl Popper e a busca pela evidência.</p></div>
+                <div class="step"><p class="t-body">Se uma teoria não permite ser testada e refutada...</p></div>
+                <div class="step"><h2 class="t-h2">Ela não é conhecimento. É manipulação.</h2></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7 -->
+        <div class="slide upcoming" data-exit="past-zoom" style="--slide-bg: #000000;">
+            <svg class="watermark" viewBox="0 0 100 100" stroke="#F4F4F5" fill="none" stroke-width="0.5">
+                <path d="M30,35 Q30,15 50,15 Q70,15 70,35 Q70,55 50,65 L50,75" stroke-dasharray="2 3"/>
+                <circle cx="50" cy="88" r="2"/>
+            </svg>
+            <div class="content-wrapper">
+                <div class="step"><h1 class="t-display" style="color: var(--accent1);">A Escolha</h1></div>
+                <div class="step"><p class="t-body">Permanecer como espectador passivo das sombras algorítmicas?</p></div>
+                <div class="step"><h2 class="t-h2" style="border-color: var(--accent1);">Ou tornar-se o investigador autônomo da verdade.</h2></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- HUD -->
+    <div id="hud">
+        <span id="counter">01 / 07</span>
+        <div id="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+        <span>Spatial Canvas Motor</span>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const slides = document.querySelectorAll('.slide');
+            const totalSlides = slides.length;
+            let currentSlideIndex = 0;
+
+            const progressBar = document.getElementById('progress-bar');
+            const counter = document.getElementById('counter');
+            const customCursor = document.getElementById('custom-cursor');
+
+            // Custom Cursor Logic
+            document.addEventListener('mousemove', (e) => {
+                customCursor.style.left = e.clientX + 'px';
+                customCursor.style.top = e.clientY + 'px';
+            });
+            document.addEventListener('mousedown', () => { customCursor.style.transform = 'translate(-50%, -50%) scale(0.5)'; });
+            document.addEventListener('mouseup', () => { customCursor.style.transform = 'translate(-50%, -50%) scale(1)'; });
+
+            // Init Spatial Canvas
+            function init() {
+                slides.forEach((slide, index) => {
+                    slide.classList.remove('active', 'past', 'past-left', 'past-up', 'past-zoom', 'upcoming');
+                    if (index === currentSlideIndex) {
+                        slide.classList.add('active');
+                    } else if (index > currentSlideIndex) {
+                        slide.classList.add('upcoming');
+                    }
+                });
+                updateHUD();
+                revealNextStep(); // Reveal first step of first slide automatically
+            }
+
+            function updateHUD() {
+                counter.innerText = `0${currentSlideIndex + 1} / 0${totalSlides}`;
+                const progress = ((currentSlideIndex) / (totalSlides - 1)) * 100;
+                progressBar.style.width = `${progress}%`;
+            }
+
+            function revealNextStep() {
+                const currentSlide = slides[currentSlideIndex];
+                const hiddenSteps = currentSlide.querySelectorAll('.step:not(.visible)');
+                
+                if (hiddenSteps.length > 0) {
+                    hiddenSteps[0].classList.add('visible');
+                    return true; // A step was revealed
+                }
+                return false; // No steps left to reveal
+            }
+
+            function nextAction() {
+                // If there are steps to reveal, do it and stop
+                if (revealNextStep()) return;
+
+                // If all steps visible, go to next slide
+                if (currentSlideIndex < totalSlides - 1) {
+                    const currentSlide = slides[currentSlideIndex];
+                    const exitEffect = currentSlide.getAttribute('data-exit');
+                    
+                    // Push current to past
+                    currentSlide.classList.remove('active');
+                    currentSlide.classList.add('past', exitEffect);
+
+                    // Bring next to active
+                    currentSlideIndex++;
+                    const nextSlide = slides[currentSlideIndex];
+                    nextSlide.classList.remove('upcoming');
+                    nextSlide.classList.add('active');
+                    
+                    updateHUD();
+                }
+            }
+
+            function prevAction() {
+                if (currentSlideIndex > 0) {
+                    // Current becomes upcoming
+                    const currentSlide = slides[currentSlideIndex];
+                    currentSlide.classList.remove('active');
+                    currentSlide.classList.add('upcoming');
+                    // Hide all steps of the slide we are leaving
+                    currentSlide.querySelectorAll('.step').forEach(s => s.classList.remove('visible'));
+
+                    // Previous becomes active
+                    currentSlideIndex--;
+                    const prevSlide = slides[currentSlideIndex];
+                    const exitEffect = prevSlide.getAttribute('data-exit');
+                    prevSlide.classList.remove('past', exitEffect);
+                    prevSlide.classList.add('active');
+                    
+                    updateHUD();
+                }
+            }
+
+            // Controls
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') {
+                    nextAction();
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    prevAction();
+                }
+            });
+
+            window.addEventListener('click', (e) => {
+                // Ignore clicks on HUD
+                if(e.target.closest('#hud')) return;
+                nextAction();
+            });
+
+            // Touch support
+            let touchStartX = 0;
+            window.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+            window.addEventListener('touchend', e => {
+                let touchEndX = e.changedTouches[0].screenX;
+                if (touchEndX < touchStartX - 50) nextAction(); // Swipe left -> Next
+                if (touchEndX > touchStartX + 50) prevAction(); // Swipe right -> Prev
+                if (Math.abs(touchEndX - touchStartX) < 10) nextAction(); // Tap -> Next
+            });
+
+            init();
+        });
+    </script>
+</body>
+</html>

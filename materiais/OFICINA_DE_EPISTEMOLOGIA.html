@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oficina Pedagógica de Filosofia: Epistemologia na Era Digital</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           1. NEOSWISS DESIGN TOKENS (VARIÁVEIS)
+           ========================================================================== */
+        :root {
+            /* Paleta de Cores Neo-Swiss */
+            --color-black: #0D0D0D;
+            --color-white: #FEFAF1;
+            --color-pure-white: #FFFFFF;
+            
+            --color-yellow: #FFD230;
+            --color-orange: #FF6A00;
+            --color-pink: #FC4FAC;
+            --color-green: #58DF55;
+            --color-blue: #1E72EF;
+            --color-red: #FA3C2F;
+            
+            /* Tipografia */
+            --font-primary: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            
+            /* Espaçamentos */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 4rem;
+
+            /* Bordas */
+            --border-thick: 3px solid var(--color-black);
+            --border-thin: 1px solid var(--color-black);
+            --radius-pill: 999px;
+        }
+
+        /* ==========================================================================
+           2. RESET & BASE (NEO-BRUTALISM)
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-black); /* Fundo externo escuro */
+            color: var(--color-black);
+            line-height: 1.5;
+            padding: var(--space-md);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background-color: var(--color-pink);
+            color: var(--color-black);
+        }
+
+        /* ==========================================================================
+           3. LAYOUT, GRIDS & CONTAINERS
+           ========================================================================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--color-white); /* Miolo off-white */
+            border: var(--border-thick);
+            position: relative;
+        }
+
+        .doc-header {
+            background-color: var(--color-blue);
+            color: var(--color-pure-white);
+            padding: var(--space-sm) var(--space-md);
+            font-size: 0.9rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: var(--border-thick);
+            display: flex;
+            justify-content: space-between;
+            font-family: monospace;
+        }
+
+        .content-wrap {
+            padding: var(--space-lg) var(--space-md);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-md);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-md);
+        }
+
+        /* Cores de Fundo Utilitárias */
+        .bg-yellow { background-color: var(--color-yellow); color: var(--color-black); }
+        .bg-pink { background-color: var(--color-pink); color: var(--color-black); }
+        .bg-green { background-color: var(--color-green); color: var(--color-black); }
+        .bg-blue { background-color: var(--color-blue); color: var(--color-pure-white); }
+        .bg-orange { background-color: var(--color-orange); color: var(--color-black); }
+        .bg-red { background-color: var(--color-red); color: var(--color-pure-white); }
+        .bg-black { background-color: var(--color-black); color: var(--color-white); }
+        .bg-white { background-color: var(--color-white); color: var(--color-black); }
+
+        /* ==========================================================================
+           4. TIPOGRAFIA NEO-SWISS
+           ========================================================================== */
+        h1, h2, h3, h4 {
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+        }
+        
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            background-color: var(--color-black);
+            color: var(--color-white);
+            padding: var(--space-md);
+            margin-bottom: var(--space-lg);
+            border: var(--border-thick);
+        }
+
+        h2 {
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            color: var(--color-black);
+            border-bottom: var(--border-thick);
+            padding-bottom: var(--space-xs);
+            margin-top: var(--space-lg);
+            margin-bottom: var(--space-md);
+        }
+
+        h3 {
+            font-size: clamp(1.25rem, 2vw, 2rem);
+            color: var(--color-black);
+            margin-top: var(--space-md);
+            margin-bottom: var(--space-xs);
+            display: inline-block;
+            background-color: var(--color-yellow);
+            padding: 0.2rem 0.5rem;
+            border: var(--border-thick);
+        }
+
+        p {
+            font-weight: 500;
+            font-size: 1.125rem;
+            margin-bottom: 1.2em;
+            max-width: 80ch;
+        }
+
+        ul, ol {
+            margin-bottom: 1.5em;
+            padding-left: var(--space-md);
+            max-width: 80ch;
+            font-weight: 500;
+            font-size: 1.125rem;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        strong, b {
+            font-weight: 900;
+        }
+
+        .text-mono {
+            font-family: monospace;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+        }
+
+        /* ==========================================================================
+           5. COMPONENTES VISUAIS (NEO-SWISS SYSTEM)
+           ========================================================================== */
+        
+        /* Cards */
+        .card {
+            background-color: var(--color-green);
+            color: var(--color-black);
+            border: var(--border-thick);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            border-bottom: 2px solid currentColor;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        /* Tabelas Brutalistas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--space-lg) 0;
+            border: var(--border-thick);
+            background-color: var(--color-white);
+        }
+
+        th, td {
+            border: var(--border-thick);
+            padding: 1.25rem;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        th {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            letter-spacing: -0.02em;
+        }
+
+        tr:nth-child(even) td {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        /* Tags mapeadas para o estilo "Pill" do Neo-Swiss */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.25rem 1rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.875rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background-color: var(--color-pink);
+            color: var(--color-black);
+            border: var(--border-thick);
+            margin: 4px 2px;
+            white-space: nowrap;
+        }
+        
+        /* Variação de cor para as tags para dar ritmo */
+        .tag:nth-child(even) { background-color: var(--color-yellow); }
+        .tag:nth-child(3n) { background-color: var(--color-orange); }
+
+        /* Caixas de Relatório e Anexos (Estilo Pôster Neo-Swiss) */
+        .report-box {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            border: var(--border-thick);
+            padding: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .report-box h3 {
+            background-color: var(--color-white);
+            color: var(--color-black);
+            border: none;
+            margin-top: 0;
+        }
+
+        .report-box p, .report-box strong {
+            color: var(--color-white);
+        }
+
+        .annex-box {
+            background-color: var(--color-orange);
+            color: var(--color-black);
+            border: var(--border-thick);
+            padding: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .annex-box h3 {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            border: 2px solid var(--color-white);
+            margin-top: 0;
+        }
+
+        .annex-box ul {
+            font-weight: 700;
+        }
+
+        /* ==========================================================================
+           6. STRICT PRINT RULES
+           ========================================================================== */
+        @media print {
+            body {
+                background-color: transparent;
+                color: #000;
+                padding: 0;
+                font-size: 11pt;
+            }
+
+            .container {
+                border: none;
+                margin: 0;
+                padding: 0;
+                max-width: 100%;
+                background-color: transparent;
+            }
+
+            .content-wrap { padding: 0; }
+
+            /* Ajustes para economia de tinta mantendo o peso da fonte */
+            h1 {
+                background-color: transparent;
+                color: #000;
+                border: 3px solid #000;
+                padding: 10px;
+            }
+
+            h3 {
+                background-color: transparent;
+                border: 2px solid #000;
+            }
+
+            .doc-header {
+                background-color: transparent;
+                color: #000;
+                border-bottom: 3px solid #000;
+            }
+
+            .card, .report-box, .annex-box {
+                background-color: transparent !important;
+                color: #000 !important;
+                border: 3px solid #000 !important;
+            }
+
+            .card-title {
+                color: #000 !important;
+                border-bottom-color: #000 !important;
+            }
+
+            .report-box p, .report-box strong {
+                color: #000;
+            }
+
+            th {
+                background-color: #000;
+                color: #fff;
+            }
+
+            .tag {
+                background-color: transparent !important;
+                border: 2px solid #000 !important;
+                color: #000 !important;
+            }
+
+            /* Prevent page breaks inside critical elements (Requisito Rigoroso) */
+            h1, h2, h3, h4, .card, table, tr, th, td, .report-box, .annex-box, ul, ol, li, .avoid-break {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+
+            /* Force page break before major sections if necessary */
+            .page-break-before {
+                page-break-before: always !important;
+                break-before: page !important;
+            }
+
+            a[href]:after {
+                content: none !important;
+            }
+
+            @page {
+                margin: 1.5cm;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="doc-header">
+        <span>Documentação Acadêmica | Projeto de Estágio</span>
+        <span>NEO-SWISS FORMAT</span>
+    </div>
+
+    <div class="content-wrap">
+        <h1>Oficina Pedagógica: Como você sabe que isso é verdade? Introdução à epistemologia na era digital</h1>
+
+        <div class="card bg-white avoid-break">
+            <strong>TEMA CENTRAL:</strong> Epistemologia, Verdade, Conhecimento, Crença, Dúvida, Realidade e Informação Digital.<br>
+            <strong>PÚBLICO-ALVO:</strong> Ensino Médio (1º ao 3º ano)<br>
+            <strong>NÚCLEO ESTRUTURANTE:</strong> Ciências Humanas e Sociais Aplicadas (Filosofia)
+        </div>
+
+        <h2>1. JUSTIFICATIVA PEDAGÓGICA</h2>
+        
+        <h3>Relevância Contemporânea</h3>
+        <p>A sociedade contemporânea está profundamente imersa na chamada "era da pós-verdade". Fenômenos como <em>fake news</em>, manipulação algorítmica, <em>deepfakes</em> gerados por Inteligência Artificial (IA generativa) e bolhas informacionais desestabilizaram os critérios tradicionais de validação do que é real. Nesse cenário, o ensino da Filosofia abandona seu caráter puramente histórico e reassume sua função originária: a defesa da verdade, a fundamentação da democracia e o combate à ignorância sistematizada.</p>
+
+        <h3>Relação com a Juventude (Geração Z)</h3>
+        <p>Os estudantes do Ensino Médio são nativos digitais cujas vidas sociais, afetivas e informacionais ocorrem em plataformas como TikTok, Instagram e fóruns da internet. Eles consomem narrativas em formatos curtos e sofrem diariamente com o excesso de informação e a ansiedade algorítmica. Ao integrar elementos da cultura pop (como <em>Matrix</em>, <em>Death Note</em> e <em>Black Mirror</em>) e a vivência em redes sociais, a oficina cria uma "ponte semântica", traduzindo o rigor conceitual acadêmico para o vocabulário existencial do jovem.</p>
+
+        <h3>Importância Filosófica</h3>
+        <p>A Epistemologia (teoria do conhecimento) é a disciplina filosófica que investiga as origens, os fundamentos, os limites e a validade do conhecimento humano. Trazer o ceticismo metodológico de Descartes, a alegoria de Platão ou a falseabilidade de Popper para o ambiente digital é demonstrar que a Filosofia é o "antivírus" intelectual mais sofisticado já criado pela humanidade contra a manipulação.</p>
+
+        <h3>Interdisciplinaridade</h3>
+        <p>O projeto articula-se de maneira transversal: <strong>Sociologia</strong> (análise do impacto social das bolhas virtuais e manipulação de massas), <strong>História</strong> (evolução da propaganda e dos meios de comunicação), <strong>Linguagens</strong> (leitura crítica da mídia, semiótica de imagens geradas por IA, estruturação argumentativa) e <strong>Tecnologia</strong> (alfabetização digital e arquitetura de dados).</p>
+
+        <h2 class="page-break-before">2. OBJETIVOS</h2>
+
+        <h3>Objetivo Geral</h3>
+        <p>Introduzir os principais problemas da epistemologia clássica e contemporânea através de exemplos práticos ligados à cultura digital, redes sociais, Inteligência Artificial e ao entretenimento da geração Z, desenvolvendo a autonomia intelectual e a resistência à desinformação.</p>
+
+        <h3>Objetivos Específicos</h3>
+        <ul>
+            <li><strong>Diferenciar</strong> categoricamente os conceitos de opinião (<em>doxa</em>), crença, e conhecimento fundamentado (<em>episteme</em>).</li>
+            <li><strong>Refletir</strong> criticamente sobre os diferentes critérios de verdade (correspondência, coerência e pragmatismo).</li>
+            <li><strong>Desconstruir</strong> a ilusão da neutralidade tecnológica, discutindo como algoritmos moldam percepções, opiniões políticas e visões de mundo.</li>
+            <li><strong>Relacionar</strong> correntes filosóficas (como o ceticismo metodológico e o empirismo) com a necessidade de checagem de fatos (<em>fact-checking</em>).</li>
+            <li><strong>Sintetizar</strong> o aprendizado desenvolvendo o pensamento crítico e a capacidade de argumentação ética em ambientes polarizados.</li>
+        </ul>
+
+        <h2>3. COMPETÊNCIAS E HABILIDADES (BNCC)</h2>
+        <p>A oficina foi desenhada para o cumprimento direto de premissas da Base Nacional Comum Curricular (BNCC), focando em <strong>pensamento crítico, argumentação, ética e interpretação</strong>.</p>
+        
+        <div class="card avoid-break" style="background-color: var(--color-white);">
+            <strong>Competências Gerais (CG):</strong>
+            <ul>
+                <li><strong>CG01:</strong> Valorizar e utilizar os conhecimentos historicamente construídos para entender e explicar a realidade (o ambiente digital).</li>
+                <li><strong>CG02:</strong> Exercitar a curiosidade intelectual e recorrer à abordagem própria das ciências, incluindo a investigação, a reflexão, a análise crítica e a imaginação.</li>
+                <li><strong>CG05:</strong> Compreender, utilizar e criar tecnologias digitais de informação e comunicação de forma crítica, significativa, reflexiva e ética nas diversas práticas sociais.</li>
+                <li><strong>CG07:</strong> Argumentar com base em fatos, dados e informações confiáveis.</li>
+            </ul>
+            <strong>Habilidades Específicas de Ciências Humanas (EM13CHS):</strong>
+            <ul>
+                <li><strong>(EM13CHS101):</strong> Identificar, analisar e comparar diferentes fontes e narrativas expressas em diversas linguagens, com vistas à compreensão de ideias filosóficas e processos sociais.</li>
+                <li><strong>(EM13CHS102):</strong> Identificar, analisar e discutir as circunstâncias e matrizes conceituais, avaliando criticamente seu significado histórico.</li>
+            </ul>
+        </div>
+
+        <h2>4. ESTRUTURA DE CARGA HORÁRIA E ESTÁGIO</h2>
+        <p>Esta estrutura visa justificar legitimamente o cômputo de horas no relatório de Estágio Supervisionado, detalhando as ações docentes exigidas antes, durante e depois da aplicação em sala.</p>
+
+        <table class="avoid-break">
+            <thead>
+                <tr>
+                    <th>Fase Docente</th>
+                    <th>Descrição das Atividades para Documentação</th>
+                    <th>Carga Horária</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Preparação e Pesquisa</strong></td>
+                    <td>Revisão bibliográfica (Platão, Descartes, Popper, Foucault). Curadoria de obras audiovisuais (Matrix, Black Mirror). Mapeamento de casos recentes de <em>fake news</em> e <em>deepfakes</em>. Elaboração do design instrucional da oficina.</td>
+                    <td><strong>8 horas</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Elaboração de Materiais</strong></td>
+                    <td>Montagem de slides pedagógicos, criação e diagramação do "Quiz de Realidade", elaboração dos "Dossiês Algorítmicos" impressos para a dinâmica, e redação da proposta de produção textual.</td>
+                    <td><strong>4 horas</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Regência / Aplicação</strong></td>
+                    <td>Condução presencial da oficina com a turma de Ensino Médio, mediação de debates, condução das metodologias ativas e gamificação. (2 encontros de 2h ou 4 aulas).</td>
+                    <td><strong>4 horas</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Relatório e Reflexão</strong></td>
+                    <td>Correção das produções textuais dos alunos, tabulação qualitativa dos resultados do debate, e escrita do relatório reflexivo-acadêmico de encerramento do estágio.</td>
+                    <td><strong>4 horas</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: right;"><strong>CARGA HORÁRIA TOTAL DA AÇÃO</strong></td>
+                    <td><strong>20 horas</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="page-break-before">5. METODOLOGIA</h2>
+        <p>A abordagem distancia-se do modelo de aula expositiva unidirecional, adotando princípios de <strong>Metodologias Ativas</strong>:</p>
+
+        <ul>
+            <li><strong>Aprendizagem Baseada em Debate (Debate-Based Learning):</strong> O professor atua como um provocador socrático (maiêutica). O foco não é entregar a resposta pronta ("Descartes pensava isso"), mas conduzir o aluno à aporia ("Como você tem certeza de que não está sendo enganado agora?").</li>
+            <li><strong>Gamificação:</strong> Utilizada no momento de "quebra-gelo" (Quiz Real ou IA). A mecânica de jogo reduz a ansiedade dos alunos em relação a temas densos e gera engajamento voluntário e instantâneo.</li>
+            <li><strong>Aprendizagem Ativa e <em>Roleplay</em>:</strong> Na dinâmica das "bolhas", os alunos simulam o comportamento de algoritmos e consumidores de informação, experimentando na prática o isolamento cognitivo.</li>
+            <li><strong>Cultura Digital como Mediação:</strong> O abstrato ganha forma material. O mito da caverna é atualizado para o uso do <em>feed</em> do <em>TikTok</em>. A dúvida hiperbólica é traduzida na imagem de uma IA generativa impecável.</li>
+            <li><strong>Participação dos Alunos:</strong> Totalmente horizontalizada. As regras de debate exigem que eles validem as premissas dos colegas antes de refutá-las, desenvolvendo empatia e rigor ético na argumentação.</li>
+        </ul>
+
+        <h2>6. CRONOGRAMA COMPLETO E PASSO A PASSO</h2>
+
+        <h3>Encontro 1: O Choque Epistemológico e a Caverna Digital (120 min)</h3>
+        <table class="avoid-break">
+            <thead>
+                <tr>
+                    <th>Etapa</th>
+                    <th>Duração</th>
+                    <th>Atividade / Descrição Passo a Passo</th>
+                    <th>Recursos / Metodologia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. Quebra-Gelo: O Deserto do Real</strong></td>
+                    <td>20 min</td>
+                    <td>O professor inicia a aula sem avisar sobre o tema. Projeta imediatamente imagens e vídeos hiper-realistas (Papa de jaqueta, <em>deepfake</em> do Tom Cruise, áudios gerados por IA de políticos). Pergunta à turma: "Quem já acreditou em algo assim?". Gera-se o "choque cognitivo" inicial.</td>
+                    <td>Projetor, caixa de som, slides. Metodologia: Problematização.</td>
+                </tr>
+                <tr>
+                    <td><strong>2. Quiz de Realidade (Gamificação)</strong></td>
+                    <td>30 min</td>
+                    <td>A turma é dividida em duplas. O professor projeta 10 conteúdos digitais. Os alunos têm 15 segundos para levantar uma placa dizendo "VERDADE" ou "SIMULAÇÃO". O professor revela as respostas, explicando como nossos sentidos são facilmente enganados (Introdução velada ao Empirismo e suas falhas).</td>
+                    <td>Slides, placas impressas (V/F), celular (opcional - Kahoot).</td>
+                </tr>
+                <tr>
+                    <td><strong>3. Introdução Filosófica Formal</strong></td>
+                    <td>30 min</td>
+                    <td>Construção de conceitos no quadro. O professor distingue: <strong>Opinião/Doxa</strong> (sem base, "eu acho"), <strong>Crença</strong> (estado psicológico de aceitação), e <strong>Conhecimento/Episteme</strong> (crença verdadeira justificada). Apresenta-se o Gênio Maligno de Descartes e a Alegoria da Caverna.</td>
+                    <td>Quadro, marcadores. Metodologia: Aula dialogada Socrática.</td>
+                </tr>
+                <tr>
+                    <td><strong>4. Debate Matrix e a Cultura Pop</strong></td>
+                    <td>40 min</td>
+                    <td>Exibição da cena "Pílula Vermelha / Azul" de Matrix e trechos de episódios de Black Mirror. O professor faz a ponte: "O feed que o algoritmo monta para você é a sua caverna? Como sair dela?". Os alunos debatem baseados nos conceitos da etapa anterior.</td>
+                    <td>Projetor, vídeos. Metodologia: Debate guiado.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Encontro 2: A Pós-Verdade e o Tribunal do Conhecimento (120 min)</h3>
+        <table class="avoid-break">
+            <thead>
+                <tr>
+                    <th>Etapa</th>
+                    <th>Duração</th>
+                    <th>Atividade / Descrição Passo a Passo</th>
+                    <th>Recursos / Metodologia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. Aquecimento: Memes e Dúvida</strong></td>
+                    <td>15 min</td>
+                    <td>O professor projeta uma "thread" conspiratória do Twitter/X ou um meme atual e pede que os alunos encontrem a falha lógica ou a fonte primária da afirmação. Retomada rápida do conceito de Episteme.</td>
+                    <td>Projetor, internet.</td>
+                </tr>
+                <tr>
+                    <td><strong>2. Dinâmica da Bolha Algorítmica</strong></td>
+                    <td>45 min</td>
+                    <td>A sala é dividida em 3 grupos ("A", "B" e "C"). O professor entrega a cada grupo um "dossiê" (textos, tweets, manchetes) sobre um evento fictício polemizado (Ex: Lei proibindo IA nas escolas). O dossiê do grupo A é enviesado a favor; o do B, contra; o do C, foca em pânico moral. Após 20 minutos, os grupos devem debater o evento. Eles logo percebem que não chegam a um acordo porque "consumiram realidades diferentes".</td>
+                    <td>Dossiês impressos previamente. Metodologia: Aprendizagem Ativa / Roleplay.</td>
+                </tr>
+                <tr>
+                    <td><strong>3. Mapa da Verdade (Conceito de Evidência)</strong></td>
+                    <td>30 min</td>
+                    <td>Após a revelação de que os dossiês eram bolhas, o professor introduz Karl Popper e a importância do método e da falseabilidade. A turma constrói colaborativamente no quadro um "Manual de Sobrevivência Digital": Como checar informações? Quais os critérios de uma evidência sólida?</td>
+                    <td>Quadro, post-its. Metodologia: Construção coletiva de síntese.</td>
+                </tr>
+                <tr>
+                    <td><strong>4. Avaliação e Fechamento Reflexivo</strong></td>
+                    <td>30 min</td>
+                    <td>O professor faz um apanhado geral. Entrega a folha da "Proposta de Produção Textual" (ver anexos). Uma última roda de conversa permite que os alunos expressem como a Filosofia mudou a maneira como vão olhar o celular quando a aula acabar.</td>
+                    <td>Roda de conversa, folhas de avaliação impressas.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="page-break-before">7. AUTORES E CONCEITOS FILOSÓFICOS RELACIONADOS</h2>
+        <div class="card avoid-break" style="background-color: var(--color-blue); color: var(--color-pure-white);">
+            <ul>
+                <li><strong>Platão:</strong> <em>Mito da Caverna</em>, <em>Doxa</em> (opinião/sombras) vs. <em>Episteme</em> (conhecimento/luz).</li>
+                <li><strong>René Descartes:</strong> <em>Dúvida Hiperbólica / Metódica</em>, o Gênio Maligno (como prefiguração da IA e da simulação virtual).</li>
+                <li><strong>David Hume:</strong> Empirismo, o hábito e a crença. Como o viés de confirmação atua no comportamento de massa na internet.</li>
+                <li><strong>Karl Popper:</strong> Racionalismo Crítico, critério de Falseabilidade (se uma teoria conspiratória não permite ser testada para ser refutada, ela não é conhecimento válido).</li>
+                <li><strong>Michel Foucault:</strong> Regimes de Verdade e Poder. Como as grandes plataformas (Big Techs) exercem o monopólio e o micropoder do que é visível (verdadeiro) ou invisível na sociedade.</li>
+            </ul>
+            <div style="margin-top: 24px;">
+                <strong>CONCEITOS CENTRAIS:</strong><br>
+                <span class="tag">Verdade</span> <span class="tag">Crença Justificada</span> <span class="tag">Ceticismo</span> <span class="tag">Evidência</span> <span class="tag">Simulação</span> <span class="tag">Pós-verdade</span> <span class="tag">Viés de Confirmação</span> <span class="tag">Algoritmo</span>
+            </div>
+        </div>
+
+        <h2>8. POSSÍVEIS PERGUNTAS PARA DEBATE (Gatilhos Socráticos)</h2>
+        <ul>
+            <li>Como nós sabemos que algo é verdade no ambiente digital? A visão dos nossos olhos, vendo um vídeo (deepfake), ainda é a prova definitiva?</li>
+            <li>Se todo mundo no grupo de WhatsApp ou no Twitter repete uma mentira milhões de vezes, essa mentira adquire o "peso" prático de uma verdade?</li>
+            <li>Existe diferença filosófica e prática entre <em>acreditar</em> numa notícia e <em>saber</em> que a notícia é fato?</li>
+            <li>O algoritmo das redes sociais escolhe o que pensamos, ou ele apenas nos reflete de volta de forma distorcida?</li>
+            <li>Se a IA pode gerar arte, textos e informações verossímeis, qual passa a ser o papel do ser humano na construção do conhecimento?</li>
+        </ul>
+
+        <h2>9. RECURSOS E MATERIAIS NECESSÁRIOS</h2>
+        <ul>
+            <li>Equipamento Multimídia (Computador, Projetor, Sistema de Som).</li>
+            <li>Acesso à Internet para exibição de ferramentas de IA ou vídeos no YouTube (ou download prévio, recomendado para escolas sem rede estável).</li>
+            <li>Material de escritório: Quadro branco, marcadores coloridos, post-its, folhas sulfites.</li>
+            <li>Materiais Didáticos Específicos (impressos pelo estagiário):
+                <ul>
+                    <li>Placas "VERDADE" e "SIMULAÇÃO" para a gamificação.</li>
+                    <li>Dossiês Fictícios da "Bolha Algorítmica" (conjuntos A, B e C).</li>
+                    <li>Folha de Proposta de Produção Textual.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>10. FORMAS DE AVALIAÇÃO E RESULTADOS ESPERADOS</h2>
+        <p><strong>Avaliação Formativa e Processual:</strong></p>
+        <ul>
+            <li><strong>Participação Qualitativa (Debate):</strong> Avalia-se a capacidade do aluno de respeitar os turnos de fala, aplicar a escuta ativa e formular argumentos baseados em justificativas (evidências), fugindo do "eu acho".</li>
+            <li><strong>Análise Crítica em Grupo:</strong> Desempenho durante a dinâmica das bolhas – observação docente sobre como os alunos identificam falácias no material dos colegas.</li>
+            <li><strong>Produção Textual Reflexiva:</strong> Avaliação escrita formal onde o aluno deve articular o conceito de um autor filosófico abordado com um exemplo prático da era digital (Fake News, IAs, etc).</li>
+        </ul>
+        <p><strong>Resultados Esperados:</strong> Espera-se que, ao final da oficina, os alunos desenvolvam o que chamamos de <em>Ceticismo Saudável</em> e <em>Letramento Algorítmico</em>. Eles devem passar a enxergar suas <em>timelines</em> e <em>feeds</em> não como recortes neutros da realidade, mas como construções arquitetadas que exigem validação constante. Filosoficamente, o resultado é a migração da postura de espectador passivo (preso às sombras da caverna) para a de investigador autônomo da verdade.</p>
+
+        <h2 class="page-break-before">11. DOCUMENTAÇÃO DE ESTÁGIO: RELATÓRIO REFLEXIVO FINAL</h2>
+        <p><em>Exemplo a ser adaptado pelo acadêmico estagiário após a execução do projeto.</em></p>
+        
+        <div class="report-box avoid-break">
+            <h3 style="margin-top:0;">Relatório Analítico de Regência</h3>
+            <p><strong>Instituição Escolar:</strong> [Nome da Escola] | <strong>Turma:</strong> 2º Ano do Ensino Médio | <strong>Data:</strong> [Data]<br>
+            <span class="text-mono">ESTAGIÁRIO(A):</span> [Nome do Acadêmico] | <span class="text-mono">DISCIPLINA:</span> Prática e Estágio Supervisionado em Filosofia</p>
+            
+            <p>A aplicação da oficina "Introdução à epistemologia na era digital" demonstrou, na práxis, a vitalidade da Filosofia como ferramenta de intervenção social. O uso inicial de <em>deepfakes</em> hiper-realistas funcionou perfeitamente como estopim epistemológico. Ao constatar que seus sentidos haviam sido enganados por uma Inteligência Artificial, os alunos demonstraram uma abertura imediata e genuína para a discussão do "Gênio Maligno" de Descartes — conceito que, de outra forma, poderia parecer árido ou historicamente distante.</p>
+
+            <p>O momento de maior riqueza pedagógica ocorreu durante a "Dinâmica da Bolha Algorítmica". Pude observar empiricamente a cristalização dos "regimes de verdade" descritos por Foucault. Os alunos do Grupo A e do Grupo B, alimentados por informações diametralmente opostas sobre o mesmo evento, iniciaram o debate com forte animosidade. Foi necessário intensa mediação pedagógica para direcioná-los à análise das <em>fontes</em> (Popper) e não ao ataque pessoal. Isso provou aos estudantes como o viés de confirmação e as bolhas virtuais corroem a capacidade de diálogo democrático.</p>
+
+            <p>Do ponto de vista didático, o maior desafio foi gerenciar o tempo do debate, visto que o engajamento da juventude com o tema "redes sociais" gerou altíssima participação oral. A interdisciplinaridade com Sociologia e Tecnologias foi atingida com êxito. Concluo esta etapa de estágio com a convicção de que o ensino de Filosofia, quando mobiliza o vocabulário cultural e tecnológico do discente, supera a mera doxografia histórica e consolida-se como a disciplina fundamental para a formação da cidadania crítica no século XXI.</p>
+        </div>
+
+        <h2 class="page-break-before">12. ANEXOS / RECURSOS PARA O PROFESSOR</h2>
+
+        <div class="annex-box avoid-break" style="background-color: var(--color-white);">
+            <h3 style="margin-top:0;">ANEXO I: Exemplo de Material - Dinâmica da Bolha Algorítmica</h3>
+            <p><strong>Instruções de Preparo para o Professor:</strong> Imprima 3 tipos de folhas (Dossiês). O evento fictício é: "Projeto de Lei quer proibir o uso de Inteligência Artificial para trabalhos escolares em todo o Brasil".</p>
+            <ul>
+                <li><strong>Dossiê Grupo A (Viés Entusiasta):</strong> Traz recortes de matérias falsas onde especialistas de tecnologia elogiam a IA como salvação da educação; gráficos de aumento de criatividade; tuítes de influenciadores zombando dos professores "antigos".</li>
+                <li><strong>Dossiê Grupo B (Viés de Pânico Moral):</strong> Traz recortes com manchetes como "IA causará demissão em massa de professores em 5 anos"; artigos sobre atrofia cerebral nos jovens; e relatos de plágio descontrolado.</li>
+                <li><strong>Dossiê Grupo C (Viés Econômico/Político):</strong> Traz apenas dados dizendo que escolas privadas estão comprando servidores de IA enquanto escolas públicas não têm internet, focando inteiramente no abismo social.</li>
+            </ul>
+            <p><strong>Ação:</strong> Não conte aos alunos que eles têm textos diferentes. Deixe-os ler. Após 15 min, lance a pergunta no meio da sala: "E aí, esse Projeto de Lei é bom ou ruim para a sociedade?". Deixe o caos retórico começar antes de intervir revelando a "manipulação".</p>
+        </div>
+
+        <div class="annex-box avoid-break" style="background-color: var(--color-yellow);">
+            <h3 style="margin-top:0;">ANEXO II: Roteiro e Regras de Ouro do Debate Filosófico</h3>
+            <p>Cole este roteiro no quadro ou projete durante as aulas de discussão para garantir o rigor intelectual.</p>
+            <ol>
+                <li><strong>Proibição da Achologia:</strong> Expressões como "Porque sim", "Eu acho que", "É óbvio" e "Todo mundo sabe" estão banidas. Substitua por "Baseado no fato X...", "De acordo com o argumento Y...", "Considerando a evidência Z...".</li>
+                <li><strong>A Regra da Empatia Lógica (Escuta Ativa):</strong> Antes de refutar ou discordar de um colega, o aluno deve resumir brevemente o que o colega disse. (Ex: "Entendo que você defende que a IA ajuda a pesquisa, porém, eu acrescento que...").</li>
+                <li><strong>Ataque a Ideia, Não o Indivíduo (Evitar Ad Hominem):</strong> Avaliamos o conteúdo da informação, a validade do argumento, nunca as características pessoais de quem fala.</li>
+            </ol>
+        </div>
+
+        <div class="annex-box avoid-break" style="background-color: var(--color-pink);">
+            <h3 style="margin-top:0;">ANEXO III: Proposta de Produção Textual / Redação (Avaliação Final)</h3>
+            <p><strong>Comando para o Aluno:</strong></p>
+            <p>Vivemos uma época paradoxal: temos acesso a toda a informação da história da humanidade nos nossos bolsos, mas as teorias da conspiração e as crenças anticientíficas nunca estiveram tão fortes. A ignorância hoje não é a falta de informação, mas a incapacidade de filtrá-la.</p>
+            <p>Redija um texto dissertativo-argumentativo (15 a 25 linhas) respondendo à seguinte questão:<br>
+            <strong>"Diante dos algoritmos de recomendação, das bolhas sociais e das Inteligências Artificiais generativas, como é possível construir um conhecimento verdadeiro, crítico e autônomo no século XXI?"</strong></p>
+            <p><strong>Requisitos Obrigatórios:</strong><br>
+            1. Utilizar e explicar o conceito de pelo menos um filósofo visto na oficina (Ex: Dúvida Metódica de Descartes, o Mito da Caverna de Platão, ou a Falseabilidade de Popper).<br>
+            2. Mencionar um exemplo prático do seu dia a dia tecnológico (Ex: recomendações do TikTok, deepfakes, grupos de WhatsApp).</p>
+        </div>
+
+        <h2 class="page-break-before">13. CADERNO DE DINÂMICAS (ANEXO EXTRA)</h2>
+        
+        <div class="report-box avoid-break">
+            <h3 style="color: var(--color-black);">O CHOQUE DA PRÁTICA</h3>
+            <p>A Epistemologia fica <strong>MUITO mais forte</strong> quando o aluno sente na prática. A oficina funciona melhor quando os alunos primeiro "caem na armadilha" e só depois você revela o conceito filosófico. Eles precisam sentir empiricamente:</p>
+            <div style="margin-top: 1rem;">
+                <span class="tag">que podem
